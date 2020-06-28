@@ -1,0 +1,21 @@
+#!/usr/bin/expect --
+
+set timeout -1
+set prompt "irb*>"
+
+spawn irb
+
+expect $prompt
+send "require_relative 'chinese'\r"
+
+expect $prompt
+send "lunar_phase(today).round(2)\r"
+
+expect $prompt
+send "today.to_gregorian.to_s\r"
+
+expect $prompt
+send "today.to_chinese.to_s\r"
+
+expect $prompt
+interact

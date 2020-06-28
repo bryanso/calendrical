@@ -1,0 +1,24 @@
+#!/bin/tcsh
+
+ruby << END
+    require "./chinese"
+
+    t = today
+    d = t.to_chinese
+
+    d2 = (solar_term_date_on_or_after t).floor
+    if (d2 == t) then
+        term = solar_term_on_or_after t
+        term_name = " " + CHINESE_SOLAR_TERMS[term - 1]
+    else
+        term_name = ""
+    end
+    
+    puts chinese_year_to_stem_branch(d.year) + " " +
+        (@leap ? "閏" : "") +
+        chinese_month_name(d.month) + " " +
+        chinese_day_name(d.day) +
+        term_name
+END
+
+

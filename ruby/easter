@@ -1,0 +1,14 @@
+#!/bin/tcsh
+
+if ( $# == 0 ) then
+    echo "Usage: easter <year>"
+    exit 1
+endif
+
+ruby << END
+    require "./holidays"
+    y = $1
+    puts easter(y).to_gregorian
+END
+
+

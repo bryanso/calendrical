@@ -1,0 +1,7 @@
+#
+# Calendrical Calculations Third Edition
+# Nachum Dershowitz, Edward M. Reingold
+# Cambridge University Press
+# 2008
+#
+
