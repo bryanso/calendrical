@@ -6,6 +6,7 @@
 #
 
 include Math
+require_relative "constants"
 require_relative "gregorian"
 require_relative "locale"
 
@@ -1165,7 +1166,7 @@ end
 #
 def sunrise(date, locale)
     h = [0, locale.elevation].max
-    r = 6.372e6                        # Radius of the Earth
+    r = EARTH_RADIUS
     dip = arccos_degree(r / (r + h))
     alpha = Angle.new(0, 50.0, 0).to_degree + dip +
         Angle.new(0, 0, 19.0).to_degree * sqrt(h)
@@ -1179,7 +1180,7 @@ end
 #
 def sunset(date, locale) 
     h = [0, locale.elevation].max
-    r = 6.372e6                        # Radius of the Earth
+    r = EARTH_RADIUS
     dip = arccos_degree(r / (r + h))
     alpha = Angle.new(0, 50.0, 0).to_degree + dip +
         Angle.new(0, 0, 19.0).to_degree * sqrt(h)

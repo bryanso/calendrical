@@ -17,9 +17,12 @@ HONG_KONG = Position.new(
 )
 
 
+#
+# From latlong.net
+#
 SAN_FRANCISCO = Position.new(
-    Angle.new(37.0, 46.0, 29.0).to_degree,
-    Angle.new(-122.0, 25.0, 9.0).to_degree,
+    37.773972,   # Angle.new(37.0, 46.0, 26.2992).to_degree
+    -122.431297, # Angle.new(-122.0, 25.0, 52.6692).to_degree
     28.0,
     -8.0 / 24
 )
