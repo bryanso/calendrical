@@ -34,6 +34,8 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION jd_from_fixed(date NUMBER) RETURN NUMBER;     -- 1.14
 
+    FUNCTION time_from_moment(t NUMBER) RETURN NUMBER;     -- 1.18
+
 END;
 /
 SHOW ERRORS

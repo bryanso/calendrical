@@ -1,4 +1,9 @@
 //
+// Adapted from Calendrical Calculations by
+// Edward M. Reingold and Nachum Dershowitz
+//
+
+//
 // 1.17
 // The book uses a different definition of mod function:
 // x mod y ::= x - y * floor(x/y)
@@ -61,3 +66,8 @@ int fixed_from_jd(num jd) => moment_from_jd(jd).floor();
 // 1.14
 //
 num jd_from_fixed(num date) => jd_from_moment(date);
+
+//
+// 1.18
+//
+num time_from_moment(num t) => mod(t, 1);

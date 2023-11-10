@@ -96,6 +96,14 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN jd_from_moment(date);
     END;
 
+    --
+    -- 1.18
+    --
+    FUNCTION time_from_moment(t NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN mod(t, 1);
+    END;
+
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
