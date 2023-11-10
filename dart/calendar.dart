@@ -1,4 +1,11 @@
 //
+// 1.17
+// The book uses a different definition of mod function:
+// x mod y ::= x - y * floor(x/y)
+//
+num mod(num x, num y) => x - y * (x / y).floor();
+
+//
 // 1.1 Initial Epoch and Rata Die (fixed date)
 //
 final Epoch = 0;
