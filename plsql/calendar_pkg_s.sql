@@ -16,6 +16,23 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION rd(t NUMBER) RETURN NUMBER;    -- 1.1 Initial Epoch and Rata Die (fixed date)
 
+    FUNCTION moment_from_jd(jd NUMBER) RETURN NUMBER;      -- 1.4
+
+    FUNCTION jd_from_moment(t NUMBER) RETURN NUMBER;       -- 1.5
+
+    FUNCTION fixed_from_mjd(mjd NUMBER) RETURN NUMBER;     -- 1.7
+
+    FUNCTION mjd_from_fixed(date NUMBER) RETURN NUMBER;    -- 1.8
+
+    FUNCTION moment_from_unix(seconds INTEGER) RETURN NUMBER;  -- 1.10
+
+    FUNCTION unix_from_moment(t NUMBER) RETURN NUMBER;     -- 1.11
+
+    FUNCTION fixed_from_moment(t NUMBER) RETURN INTEGER;   -- 1.12
+
+    FUNCTION fixed_from_jd(jd NUMBER) RETURN INTEGER;      -- 1.13
+
+    FUNCTION jd_from_fixed(date NUMBER) RETURN NUMBER;     -- 1.14
 
 END;
 /
