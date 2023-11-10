@@ -100,3 +100,14 @@ function jd_from_fixed(date) {
 function time_from_moment(t) {
     mod(t, 1)
 }
+
+#
+# 1.22
+#
+function gcd(x, y) {
+    if (y == 0) { 
+        x 
+    } else { 
+        gcd(y, mod(x, y))
+    }
+}

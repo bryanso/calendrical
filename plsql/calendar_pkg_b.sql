@@ -104,6 +104,18 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN mod(t, 1);
     END;
 
+    --
+    -- 1.22
+    --
+    FUNCTION gcd(x NUMBER, y NUMBER) RETURN NUMBER IS
+    BEGIN    
+        IF y = 0 THEN
+            RETURN x;
+        ELSE
+            RETURN gcd(y, mod(x, y));
+        END IF;
+    END;
+
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch

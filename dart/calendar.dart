@@ -71,3 +71,15 @@ num jd_from_fixed(num date) => jd_from_moment(date);
 // 1.18
 //
 num time_from_moment(num t) => mod(t, 1);
+
+//
+// 1.22
+//
+num gcd(num x, num y) {
+  return (y == 0) ? x : gcd(y, mod(x, y));
+}
+
+main() {
+  print("Test");
+  print(gcd(164, 24));
+}

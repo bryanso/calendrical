@@ -36,6 +36,8 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION time_from_moment(t NUMBER) RETURN NUMBER;     -- 1.18
 
+    FUNCTION gcd(x NUMBER, y NUMBER) RETURN NUMBER;        -- 1.22
+
 END;
 /
 SHOW ERRORS
