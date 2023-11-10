@@ -39,3 +39,18 @@ num moment_from_unix(int seconds) => UNIX_Epoch + seconds / 24.0 / 60.0 / 60.0;
 // 1.11
 //
 num unix_from_moment(num t) => 24 * 60 * 60 * (t - UNIX_Epoch);
+
+//
+// 1.12
+//
+int fixed_from_moment(num t) => t.floor();
+
+//
+// 1.13
+//
+int fixed_from_jd(num jd) => moment_from_jd(jd).floor();
+
+//
+// 1.14
+//
+num jd_from_fixed(num date) => jd_from_moment(date);
