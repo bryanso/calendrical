@@ -1337,12 +1337,14 @@ def timezone_conversion(t, locale1, locale2)
 end
 
 
-# puts "Today's moon phase: "
-# puts lunar_phase(today).round(2)
+puts "Today's moon phase: "
+puts lunar_phase(today).round(2)
 
-# d = Day.new(1945, 11, 12)
-# f = gregorian_to_fixed(d)
-# u = urbana_sunset(d)
-# puts u.to_clock
+d = Day.new(1945, 11, 12)
+f = gregorian_to_fixed(d)
+
+puts "Urbana sunset: "
+u = urbana_sunset(d)
+puts u.to_clock
 # 
 # puts time_from_moment(sunset(f, CFS_ALERT)).to_clock

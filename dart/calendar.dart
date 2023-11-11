@@ -1,4 +1,16 @@
 //
+// Adapted from Calendrical Calculations by
+// Edward M. Reingold and Nachum Dershowitz
+//
+
+//
+// 1.17
+// The book uses a different definition of mod function:
+// x mod y ::= x - y * floor(x/y)
+//
+num mod(num x, num y) => x - y * (x / y).floor();
+
+//
 // 1.1 Initial Epoch and Rata Die (fixed date)
 //
 final Epoch = 0;
@@ -54,3 +66,27 @@ int fixed_from_jd(num jd) => moment_from_jd(jd).floor();
 // 1.14
 //
 num jd_from_fixed(num date) => jd_from_moment(date);
+
+//
+// 1.18
+//
+num time_from_moment(num t) => mod(t, 1);
+
+//
+// 1.22
+//
+num gcd(num x, num y) {
+  return (y == 0) ? x : gcd(y, mod(x, y));
+}
+
+//
+// 1.23
+//
+num lcm(num x, num y) {
+  return x * y / gcd(x, y);
+}
+
+main() {
+  print("Test");
+  print(gcd(164, 24));
+}
