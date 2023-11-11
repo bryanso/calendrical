@@ -116,6 +116,14 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         END IF;
     END;
 
+    --
+    -- 1.23
+    --
+    FUNCTION lcm(x NUMBER, y NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN x * y / gcd(x, y);
+    END;
+
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch

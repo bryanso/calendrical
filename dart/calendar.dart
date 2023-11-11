@@ -79,6 +79,13 @@ num gcd(num x, num y) {
   return (y == 0) ? x : gcd(y, mod(x, y));
 }
 
+//
+// 1.23
+//
+num lcm(num x, num y) {
+  return x * y / gcd(x, y);
+}
+
 main() {
   print("Test");
   print(gcd(164, 24));

@@ -111,3 +111,10 @@ function gcd(x, y) {
         gcd(y, mod(x, y))
     }
 }
+
+#
+# 1.23
+#
+function lcm(x, y) {
+    x * y / gcd(x, y)
+}
