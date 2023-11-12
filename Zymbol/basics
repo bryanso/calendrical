@@ -240,3 +240,13 @@ function min_binary_search(q, a, b, p) {
         min_binary_search(q, x, b, p)
     }
 }
+
+function test_pi(x) {
+    x >= 3.1415926538
+}
+
+function test_accuracy(l, u) {
+    (u - l) < 0.001
+}
+
+# print min_binary_search(test_accuracy, 0, 10, test_pi)
