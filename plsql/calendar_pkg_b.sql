@@ -178,6 +178,27 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     -- not yet implemented.
     --
 
+    --
+    -- 1.32
+    -- MIN search searches for the smallest d in the sequence d0, d0+1, ...
+    -- such that the condition p holds true for d.  The caller must make
+    -- sure this function will terminate for some d.  Return d.
+    --
+    -- Due to the lack of lambda function support in PL/SQL this is 
+    -- not yet implemented.
+    --
+
+    --
+    -- 1.33
+    -- MAX search is the compliment of MIN search.  It returns d such
+    -- that p(d0), p(d0+1), ... p(d) are true but the next one p(d+1) is
+    -- false.  Return d.  If p(d0) is already false, return d0-1.
+    -- The caller must make sure this function will terminate.
+    --
+    -- Due to the lack of lambda function support in PL/SQL this is 
+    -- not yet implemented.
+    --
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch

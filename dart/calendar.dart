@@ -114,7 +114,7 @@ num mod3(num x, num b) {
 // Conditional summation will sum f(i) starting from i = k
 // as long as p(i) is true.
 //
-num sum_if(Function f, Function p, int k) {
+num sum_if(num Function(int) f, bool Function(int) p, int k) {
   int i = k;
   num result = 0;
   while (p(i)) {
@@ -129,7 +129,7 @@ num sum_if(Function f, Function p, int k) {
 // Conditional multiplication analogous to 1.30 above.
 // Multiply f(i) as long as p(i) is true.
 //
-num multiply_if(Function f, Function p, int k) {
+num multiply_if(num Function(int) f, bool Function(int) p, int k) {
   int i = k;
   num result = 1;
   while (p(i)) {
@@ -137,6 +137,33 @@ num multiply_if(Function f, Function p, int k) {
     i = i + 1;
   }
   return result;
+}
+
+//
+// 1.32
+// MIN search searches for the smallest d in the sequence d0, d0+1, ...
+// such that the condition p holds true for d.  The caller must make
+// sure this function will terminate for some d.  Return d.
+//
+int min_search(bool Function(int) p, int d0) {
+  while (!p(d0)) {
+    d0++;
+  }
+  return d0;
+}
+
+//
+// 1.33
+// MAX search is the compliment of MIN search.  It returns d such
+// that p(d0), p(d0+1), ... p(d) are true but the next one p(d+1) is
+// false.  Return d.  If p(d0) is already false, return d0-1.
+// The caller must make sure this function will terminate.
+//
+int max_search(bool Function(int) p, int d0) {
+  while (p(d0)) {
+    d0++;
+  }
+  return d0 - 1;
 }
 
 num test_identical(num x) => x;
