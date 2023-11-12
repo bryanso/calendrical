@@ -166,12 +166,54 @@ int max_search(bool Function(int) p, int d0) {
   return d0 - 1;
 }
 
+//
+// 1.34
+// This ia generic binary search algorithm that can be adapted to perform
+// any searches for answers to some increasing function.
+//
+// Supposed we want to find x where some function f(x) = y
+//
+// q(l, u) is an accuracy test, e.g. u - l < 0.0001
+// [a, b] is the initial guess interval
+// p is a boolean test function that is false within the range [a, x) and
+// turns true in the range [x, b]
+//
+// E.g., To use it to find x that satisifies f(x) = y where f is an
+// increasing function and x has accuracy to 4 decimal digits and
+// x is known to be between [0, 1] can be:
+//
+// min_binary_search(
+//    function (l, u) { (u - l) < 0.0001 },
+//    0,
+//    1,
+//    function (x) { f(x) >= y }
+// )
+//
+num min_binary_search(
+    bool Function(num, num) q, num a, num b, bool Function(num) p) {
+  num x = (a + b) / 2; // mid-point
+  if (q(a, b)) {
+    return x;
+  } else {
+    return p(x) ? min_binary_search(q, a, x, p) : min_binary_search(q, x, b, p);
+  }
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
+
+bool test_pi(num x) {
+  return x >= 3.1415926538;
+}
+
+bool test_accuracy(num l, num u) {
+  return (u - l) < 0.0001;
+}
 
 main() {
   print("Test");
   num result = sum_if(test_identical, test_lessthaneleven, 0);
   print(result);
+  print(min_binary_search(test_accuracy, 0, 10, test_pi));
 }
