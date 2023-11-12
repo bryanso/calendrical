@@ -159,7 +159,7 @@ function mod3(x, b) {
 #
 function sum_if(f, p, k) {
     variable i = k, result = 0 
-    while (p(i)) {
+    while p(i) {
         result = result + f(i)
         i = i + 1
     }
@@ -173,9 +173,36 @@ function sum_if(f, p, k) {
 #
 function multiply_if(f, p, k) {
     variable i = k, result = 1
-    while (p(i)) {
+    while p(i) {
         result = result * f(i)
         i = i + 1
     }
     result
+}
+
+#
+# 1.32
+# MIN search searches for the smallest d in the sequence d0, d0+1, ...
+# such that the condition p holds true for d.  The caller must make
+# sure this function will terminate for some d.  Return d.
+#
+function min_search(p, d0) {
+    while not p(d0) {
+        d0 = d0 + 1
+    }
+    d0
+}
+
+#
+# 1.33
+# MAX search is the compliment of MIN search.  It returns d such
+# that p(d0), p(d0+1), ... p(d) are true but the next one p(d+1) is
+# false.  Return d.  If p(d0) is already false, return d0-1.
+# The caller must make sure this function will terminate.
+#
+function max_search(p, d0) {
+    while p(d0) {
+        d0 = d0 + 1
+    }
+    d0 - 1
 }
