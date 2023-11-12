@@ -199,6 +199,33 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     -- not yet implemented.
     --
 
+    --
+    -- 1.34
+    -- This ia generic binary search algorithm that can be adapted to perform
+    -- any searches for answers to some increasing function.  
+    --
+    -- Supposed we want to find x where some function f(x) = y
+    --
+    -- q(l, u) is an accuracy test, e.g. u - l < 0.0001
+    -- [a, b] is the initial guess interval
+    -- p is a boolean test function that is false within the range [a, x) and
+    -- turns true in the range [x, b]
+    --
+    -- E.g., To use it to find x that satisifies f(x) = y where f is an
+    -- increasing function and x has accuracy to 4 decimal digits and
+    -- x is known to be between [0, 1] can be:
+    --
+    -- min_binary_search(
+    --    function (l, u) { (u - l) < 0.0001 },
+    --    0,    
+    --    1,
+    --    function (x) { f(x) >= y }
+    -- )   
+    --   
+    -- Due to the lack of lambda function support in PL/SQL this is 
+    -- not yet implemented.
+    --
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
