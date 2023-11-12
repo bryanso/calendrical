@@ -165,40 +165,18 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     -- Conditional summation will sum f(i) starting from i = k
     -- as long as p(i) is true.
     --
-    /*
-    Due to the lack of lambda function support in PL/SQL this is 
-    not yet implemented.
-
-    num sum_if(Function f, Function p, int k) {
-        int i = k;
-        num result = 0;
-        while (p(i)) {
-            result += f(i);
-            i = i + 1;
-        }
-        return result;
-    }
-    */
+    -- Due to the lack of lambda function support in PL/SQL this is 
+    -- not yet implemented.
+    --
 
     --
     -- 1.31
     -- Conditional multiplication analogous to 1.30 above.
     -- Multiply f(i) as long as p(i) is true.
     --
-    /*
-    Due to the lack of lambda function support in PL/SQL this is 
-    not yet implemented.
-
-    num multiply_if(Function f, Function p, int k) {
-        int i = k;
-        num result = 1;
-        while (p(i)) {
-            result *= f(i);
-            i = i + 1;
-        }
-        return result;
-    }
-    */
+    -- Due to the lack of lambda function support in PL/SQL this is 
+    -- not yet implemented.
+    --
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
