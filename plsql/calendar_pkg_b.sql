@@ -124,6 +124,81 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN x * y / gcd(x, y);
     END;
 
+    --
+    -- 1.24
+    -- This is a modified mod typeset as x mod [a .. b) in the book.
+    --
+    -- x mod [a .. b) ::= 
+    --     x                     if a == b;
+    --     a + (x-a) mod (b-a)   otherwise
+    --
+    FUNCTION mod2(x NUMBER, a NUMBER, b NUMBER) RETURN NUMBER IS
+    BEGIN
+        IF a = b THEN
+            RETURN x;
+        ELSE
+            RETURN a + mod(x - a, b - a);
+        END IF;
+    END;
+
+    --
+    -- 1.28
+    -- This is a modified mod typeset as x mod [1 .. b] in the book.
+    --
+    -- x mod [1 .. b] ::=
+    --     b                 if x mod b == 0
+    --     x mod b           otherwise
+    --
+    FUNCTION mod3(x NUMBER, b NUMBER) RETURN NUMBER IS
+        n NUMBER;
+    BEGIN
+        n := mod(x, b);
+        IF n = 0 THEN 
+            RETURN b;
+        ELSE 
+            RETURN n;
+        END IF;
+    END;
+
+    --
+    -- 1.30
+    -- Conditional summation will sum f(i) starting from i = k
+    -- as long as p(i) is true.
+    --
+    /*
+    Due to the lack of lambda function support in PL/SQL this is 
+    not yet implemented.
+
+    num sum_if(Function f, Function p, int k) {
+        int i = k;
+        num result = 0;
+        while (p(i)) {
+            result += f(i);
+            i = i + 1;
+        }
+        return result;
+    }
+    */
+
+    --
+    -- 1.31
+    -- Conditional multiplication analogous to 1.30 above.
+    -- Multiply f(i) as long as p(i) is true.
+    --
+    /*
+    Due to the lack of lambda function support in PL/SQL this is 
+    not yet implemented.
+
+    num multiply_if(Function f, Function p, int k) {
+        int i = k;
+        num result = 1;
+        while (p(i)) {
+            result *= f(i);
+            i = i + 1;
+        }
+        return result;
+    }
+    */
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch

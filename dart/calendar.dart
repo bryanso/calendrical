@@ -86,7 +86,65 @@ num lcm(num x, num y) {
   return x * y / gcd(x, y);
 }
 
+//
+// 1.24
+// This is a modified mod typeset as x mod [a .. b) in the book.
+//
+// x mod [a .. b) ::=
+//     x                     if a == b;
+//     a + (x-a) mod (b-a)   otherwise
+//
+num mod2(num x, num a, num b) => (a == b) ? x : a + mod(x - a, b - a);
+
+//
+// 1.28
+// This is a modified mod typeset as x mod [1 .. b] in the book.
+//
+// x mod [1 .. b] ::=
+//     b                 if x mod b == 0
+//     x mod b           otherwise
+//
+num mod3(num x, num b) {
+  num n = mod(x, b);
+  return (n == 0) ? b : n;
+}
+
+//
+// 1.30
+// Conditional summation will sum f(i) starting from i = k
+// as long as p(i) is true.
+//
+num sum_if(Function f, Function p, int k) {
+  int i = k;
+  num result = 0;
+  while (p(i)) {
+    result += f(i);
+    i = i + 1;
+  }
+  return result;
+}
+
+//
+// 1.31
+// Conditional multiplication analogous to 1.30 above.
+// Multiply f(i) as long as p(i) is true.
+//
+num multiply_if(Function f, Function p, int k) {
+  int i = k;
+  num result = 1;
+  while (p(i)) {
+    result *= f(i);
+    i = i + 1;
+  }
+  return result;
+}
+
+num test_identical(num x) => x;
+
+bool test_lessthaneleven(int x) => x < 11;
+
 main() {
   print("Test");
-  print(gcd(164, 24));
+  num result = sum_if(test_identical, test_lessthaneleven, 0);
+  print(result);
 }

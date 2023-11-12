@@ -118,3 +118,64 @@ function gcd(x, y) {
 function lcm(x, y) {
     x * y / gcd(x, y)
 }
+
+#
+# 1.24
+# This is a modified mod typeset as x mod [a .. b) in the book.
+#
+# x mod [a .. b) ::= 
+#     x                     if a == b;
+#     a + (x-a) mod (b-a)   otherwise
+#
+function mod2(x, a, b) {
+    if (a == b) {
+        x
+    } else {
+        a + mod(x - a, b - a)
+    }
+}
+
+#
+# 1.28
+# This is a modified mod typeset as x mod [1 .. b] in the book.
+#
+# x mod [1 .. b] ::=
+#     b                 if x mod b == 0
+#     x mod b           otherwise
+#
+function mod3(x, b) {
+    variable n = mod(x, b)
+    if (n == 0) {
+        b
+    } else {
+        n
+    }
+}
+
+#
+# 1.30
+# Conditional summation will sum f(i) starting from i = k 
+# as long as p(i) is true.
+#
+function sum_if(f, p, k) {
+    variable i = k, result = 0 
+    while (p(i)) {
+        result = result + f(i)
+        i = i + 1
+    }
+    result
+}
+
+#
+# 1.31
+# Conditional multiplication analogous to 1.30 above.
+# Multiply f(i) as long as p(i) is true.
+#
+function multiply_if(f, p, k) {
+    variable i = k, result = 1
+    while (p(i)) {
+        result = result * f(i)
+        i = i + 1
+    }
+    result
+}
