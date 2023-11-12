@@ -206,3 +206,37 @@ function max_search(p, d0) {
     }
     d0 - 1
 }
+
+#
+# 1.34
+# This ia generic binary search algorithm that can be adapted to perform
+# any searches for answers to some increasing function.  
+#
+# Supposed we want to find x where some function f(x) = y
+#
+# q(l, u) is an accuracy test, e.g. u - l < 0.0001
+# [a, b] is the initial guess interval
+# p is a boolean test function that is false within the range [a, x) and
+# turns true in the range [x, b]
+#
+# E.g., To use it to find x that satisifies f(x) = y where f is an
+# increasing function and x has accuracy to 4 decimal digits and
+# x is known to be between [0, 1] can be:
+#
+# min_binary_search(
+#    function (l, u) { (u - l) < 0.0001 },
+#    0,    
+#    1,
+#    function (x) { f(x) >= y }
+# )   
+#   
+function min_binary_search(q, a, b, p) {
+    variable x = (a + b) / 2   # mid-point
+    if q(a, b) {
+        x
+    } else if p(x) {
+        min_binary_search(q, a, x, p)
+    } else {
+        min_binary_search(q, x, b, p)
+    }
+}
