@@ -199,6 +199,12 @@ num min_binary_search(
   }
 }
 
+//
+// 1.37
+//
+List<int> list_of_fixed_from_moments(List<num> l) =>
+    l.map(fixed_from_moment).toList();
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
