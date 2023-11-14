@@ -226,6 +226,25 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     -- not yet implemented.
     --
 
+    --
+    -- 1.37
+    --
+    FUNCTION list_of_fixed_from_moments(l dbms_sql.number_table)
+    RETURN dbms_sql.number_table IS
+        t dbms_sql.number_table;
+        i INTEGER;
+        n INTEGER;
+    BEGIN
+        i := l.FIRST;
+        WHILE i IS NOT NULL LOOP
+            n := fixed_from_moment(l(i));
+            t(i) := n;
+            i := l.NEXT(i);
+        END LOOP;
+        RETURN t;
+    END;
+
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch

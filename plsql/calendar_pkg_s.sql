@@ -43,6 +43,9 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     FUNCTION mod2(x NUMBER, a NUMBER, b NUMBER) RETURN NUMBER;  -- 1.24
 
     FUNCTION mod3(x NUMBER, b NUMBER) RETURN NUMBER;       -- 1.28
+
+    FUNCTION list_of_fixed_from_moments(l dbms_sql.number_table) -- 1.37
+        RETURN dbms_sql.number_table;
 END;
 /
 SHOW ERRORS
