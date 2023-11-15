@@ -248,6 +248,29 @@ function list_of_fixed_from_moments(l) {
     mapcar(l fixed_from_moment)
 }
 
+#
+# 1.40
+#
+# To collect all occurrence of events, such as holidays, in an interval time,
+# like a Gregorian year, we write a generic function to find the first occurrence on
+# or after a given moment of the p-th moment in a c-day cycle, 0 <= p < c, and then
+# recursively find the remaining occurrences:
+#
+# positions-in-range(p, c, d, [a .. b)) ::=
+#     {}                                                 // if  date >= b
+#     date || positions-in-range(p, c, d, [a+c .. b))    // otherwise
+#
+# where date = (p - d) mod [a .. a+c)                    // mod2
+#
+function positions_in_range(p, c, d, a, b) {
+    variable date = mod2(p - d, a, a + c)
+    if date >= b {
+        {}
+    else {
+        {date} & positions_in_range(p, c, d, a + c, b)
+    }
+}
+
 function test_pi(x) {
     x >= 3.1415926538
 }
