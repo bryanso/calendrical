@@ -298,23 +298,23 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         factor NUMBER;
     BEGIN
         n := a.count;
-        IF n == 0 THEN
+        IF n = 0 THEN
             RETURN 0;
         END IF;
 
         result := a(n);  -- Start backwards
-        n = n - 1;
+        n := n - 1;
 
         -- Decimal places need division
         FOR k IN REVERSE 1 .. d.COUNT 
         LOOP
-            result := a(n) + result / d(k)
+            result := a(n) + result / d(k);
             n := n - 1;
         END LOOP;
 
         factor := 1;
         -- Start multiplicative bases
-        for k IN REVERSE 1 .. length(b)
+        FOR k IN REVERSE 1 .. b.COUNT
         LOOP
             factor := factor * b(k);
             result := result + a(n) * factor;
@@ -326,6 +326,21 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         -- 0.19999999999999998
         -- ♠ radix({4 1 12 44 2.88} {7} {24 60 60})
         -- 29.53058888888889
+
+        --
+        -- PL/SQL number_table can be initialized this way:
+        --
+        -- DECLARE
+        --     a dbms_sql.number_table;
+        --     b dbms_sql.number_table;
+        --     d dbms_sql.number_table;
+        -- BEGIN
+        --     a := dbms_sql.number_table(4, 1, 12, 44, 2.88);
+        --     b := dbms_sql.number_table(7);
+        --     d := dbms_sql.number_table(24, 60, 60);
+        --     dbms_output.put_line(calendar_pkg.radix(a, b, d));
+        -- END;
+        --
 
         RETURN result;
     END;
