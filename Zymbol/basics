@@ -258,7 +258,7 @@ function list_of_fixed_from_moments(l) {
 #
 # positions-in-range(p, c, d, [a .. b)) ::=
 #     {}                                                 // if  date >= b
-#     date || positions-in-range(p, c, d, [a+c .. b))    // otherwise
+#     {date} || positions-in-range(p, c, d, [a+c .. b))  // otherwise
 #
 # where date = (p - d) mod [a .. a+c)                    // mod2
 #
@@ -266,7 +266,7 @@ function positions_in_range(p, c, d, a, b) {
     variable date = mod2(p - d, a, a + c)
     if date >= b {
         {}
-    else {
+    } else {
         {date} & positions_in_range(p, c, d, a + c, b)
     }
 }

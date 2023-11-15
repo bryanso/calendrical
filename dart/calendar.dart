@@ -205,6 +205,29 @@ num min_binary_search(
 List<int> list_of_fixed_from_moments(List<num> l) =>
     l.map(fixed_from_moment).toList();
 
+//
+// 1.40
+//
+// To collect all occurrence of events, such as holidays, in an interval time,
+// like a Gregorian year, we write a generic function to find the first occurrence on
+// or after a given moment of the p-th moment in a c-day cycle, 0 <= p < c, and then
+// recursively find the remaining occurrences:
+//
+// positions-in-range(p, c, d, [a .. b)) ::=
+//     {}                                                 // if  date >= b
+//     {date} || positions-in-range(p, c, d, [a+c .. b))  // otherwise
+//
+// where date = (p - d) mod [a .. a+c)                    // mod2
+//
+List<num> positions_in_range(num p, num c, num d, num a, num b) {
+  num date = mod2(p - d, a, a + c);
+  if (date >= b) {
+    return [];
+  } else {
+    return [date] + positions_in_range(p, c, d, a + c, b);
+  }
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
