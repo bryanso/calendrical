@@ -228,6 +228,47 @@ List<num> positions_in_range(num p, num c, num d, num a, num b) {
   }
 }
 
+//
+// 1.41
+// Evaluate mixed-radix number
+//
+// a = { a0 a1 a2 ... an }
+//
+// written in base
+//
+// b = { b1 b2 ... bk } || { bk+1 bk+2 ... bn }   // starting from bk+1 it's decimal places
+//
+// Notice length of b is one less than length of a.
+//
+num radix(List<num> a, List<num> b, List<num> d) {
+  if (a.isEmpty) {
+    return 0;
+  }
+
+  int n = a.length - 1;
+  num result = a[n--]; // Start backwards
+
+  // Decimal places need division
+  for (int k = d.length - 1; k >= 0; k--, n--) {
+    result = a[n] + result / d[k];
+  }
+
+  num factor = 1;
+  // Start multiplicative bases
+  for (int k = b.length - 1; k >= 0; k--, n--) {
+    factor *= b[k];
+    result += a[n] * factor;
+  }
+
+  // Test cases
+  // ♠ radix({0 4 48 0}, {}, {24, 60, 60})
+  // 0.19999999999999998
+  // ♠ radix({4 1 12 44 2.88} {7} {24 60 60})
+  // 29.53058888888889
+
+  return result;
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
@@ -245,4 +286,6 @@ main() {
   num result = sum_if(test_identical, test_lessthaneleven, 0);
   print(result);
   print(min_binary_search(test_accuracy, 0, 10, test_pi));
+  print(radix([4, 1, 12, 44, 2.88], [7], [24, 60, 60]));
+  print(radix([0, 4, 48, 0], [], [24, 60, 60]));
 }
