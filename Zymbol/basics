@@ -271,6 +271,41 @@ function positions_in_range(p, c, d, a, b) {
     }
 }
 
+#
+# 1.41
+# Evaluate mixed-radix number 
+#
+# a = { a0 a1 a2 ... an }
+#
+# written in base
+#
+# b = { b1 b2 ... bk } || { bk+1 bk+2 ... bn }   // starting from bk+1 it's decimal places
+#
+# Notice length of b is one less than length of a.
+#
+function radix(a, b, d) {
+    variable n = length(a)
+    variable result = a[n]  # Start backwards
+    n = n - 1
+
+    # Decimal places need division
+    for k = length(d) to 1 by -1 {
+        result = a[n] + result / d[k]
+        n = n - 1
+    }
+
+    k = length(b)
+    variable r = 1
+    # Start multiplicative bases
+    while k > 0 {
+        r = r * b[k]
+        result = result + a[n] * r
+        k = k - 1
+        n = n - 1
+    }
+    result
+}
+
 function test_pi(x) {
     x >= 3.1415926538
 }
