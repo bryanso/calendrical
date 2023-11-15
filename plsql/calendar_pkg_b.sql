@@ -244,6 +244,37 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN t;
     END;
 
+    --
+    -- 1.40
+    --
+    -- To collect all occurrence of events, such as holidays, in an interval time,
+    -- like a Gregorian year, we write a generic function to find the first occurrence on
+    -- or after a given moment of the p-th moment in a c-day cycle, 0 <= p < c, and then
+    -- recursively find the remaining occurrences:
+    --
+    -- positions-in-range(p, c, d, [a .. b)) ::=
+    --     {}                                                 // if  date >= b
+    --     {date} || positions-in-range(p, c, d, [a+c .. b))  // otherwise
+    --
+    -- where date = (p - d) mod [a .. a+c)                    // mod2
+    --
+    FUNCTION positions_in_range(p NUMBER, c NUMBER, d NUMBER, a NUMBER, b NUMBER) 
+    RETURN dbms_sql.number_table IS
+        date NUMBER;
+        i NUMBER := 1;
+        l NUMBER := a;
+        result dbms_sql.number_table;
+    BEGIN  
+        LOOP
+            date := mod2(p - d, l, l + c);
+            EXIT WHEN date >= b;
+            result(i) := date;
+            i := i + 1;
+            l := l + c;
+        END LOOP;
+
+        RETURN result;
+    END;
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
