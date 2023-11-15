@@ -49,6 +49,12 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION positions_in_range(p NUMBER, c NUMBER, d NUMBER, a NUMBER, b NUMBER)  -- 1.40
     RETURN dbms_sql.number_table;
+
+    FUNCTION radix(                                         -- 1.41
+        a dbms_sql.number_table, 
+        b dbms_sql.number_table, 
+        d dbms_sql.number_table) 
+    RETURN NUMBER;
 END;
 /
 SHOW ERRORS

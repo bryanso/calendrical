@@ -276,6 +276,61 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN result;
     END;
 
+    --
+    -- 1.41
+    -- Evaluate mixed-radix number 
+    --
+    -- a = { a0 a1 a2 ... an }
+    --
+    -- written in base
+    --
+    -- b = { b1 b2 ... bk } || { bk+1 bk+2 ... bn }   // starting from bk+1 it's decimal places
+    --
+    -- Notice length of b is one less than length of a.
+    --
+    FUNCTION radix(
+        a dbms_sql.number_table, 
+        b dbms_sql.number_table, 
+        d dbms_sql.number_table) 
+    RETURN NUMBER IS
+        n INTEGER;
+        result NUMBER;
+        factor NUMBER;
+    BEGIN
+        n := a.count;
+        IF n == 0 THEN
+            RETURN 0;
+        END IF;
+
+        result := a(n);  -- Start backwards
+        n = n - 1;
+
+        -- Decimal places need division
+        FOR k IN REVERSE 1 .. d.COUNT 
+        LOOP
+            result := a(n) + result / d(k)
+            n := n - 1;
+        END LOOP;
+
+        factor := 1;
+        -- Start multiplicative bases
+        for k IN REVERSE 1 .. length(b)
+        LOOP
+            factor := factor * b(k);
+            result := result + a(n) * factor;
+            n := n - 1;
+        END LOOP;
+
+        -- Test cases
+        -- ♠ radix({0 4 48 0}, {}, {24, 60, 60})
+        -- 0.19999999999999998
+        -- ♠ radix({4 1 12 44 2.88} {7} {24 60 60})
+        -- 29.53058888888889
+
+        RETURN result;
+    END;
+
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
