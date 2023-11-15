@@ -285,6 +285,10 @@ function positions_in_range(p, c, d, a, b) {
 #
 function radix(a, b, d) {
     variable n = length(a)
+    if n == 0 {
+        return 0
+    }
+
     variable result = a[n]  # Start backwards
     n = n - 1
 
@@ -294,15 +298,20 @@ function radix(a, b, d) {
         n = n - 1
     }
 
-    k = length(b)
-    variable r = 1
+    variable factor = 1
     # Start multiplicative bases
-    while k > 0 {
-        r = r * b[k]
-        result = result + a[n] * r
-        k = k - 1
+    for k = length(b) to 1 by -1 {
+        factor = factor * b[k]
+        result = result + a[n] * factor
         n = n - 1
     }
+
+    # Test cases
+    # ♠ radix({0 4 48 0}, {}, {24, 60, 60})
+    # 0.19999999999999998
+    # ♠ radix({4 1 12 44 2.88} {7} {24 60 60})
+    # 29.53058888888889
+
     result
 }
 
