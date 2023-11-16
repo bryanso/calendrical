@@ -55,6 +55,12 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
         b dbms_sql.number_table, 
         d dbms_sql.number_table) 
     RETURN NUMBER;
+
+    FUNCTION radix2(                                        -- 1.42
+        x NUMBER, 
+        b dbms_sql.number_table, 
+        d dbms_sql.number_table) 
+    RETURN dbms_sql.number_table;
 END;
 /
 SHOW ERRORS

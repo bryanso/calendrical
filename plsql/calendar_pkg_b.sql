@@ -345,6 +345,42 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN result;
     END;
 
+    --
+    -- 1.42 (Reverse of 1.41)
+    --
+    FUNCTION radix2(
+        x NUMBER, 
+        b dbms_sql.number_table, 
+        d dbms_sql.number_table) 
+    RETURN dbms_sql.number_table IS
+        a dbms_sql.number_table;
+        factor NUMBER := 1;
+        t NUMBER;
+    BEGIN
+        FOR k IN 1 .. d.COUNT
+        LOOP
+            factor := factor * d(k);
+            IF k = d.COUNT THEN
+                t := mod(x * factor, d(k));
+            ELSE
+                t := mod(floor(x * factor), d(k));
+            END IF;
+            a(k + b.COUNT + 1) := t;
+        END LOOP;
+
+        factor := 1;
+        FOR k IN REVERSE 1 .. b.COUNT 
+        LOOP
+            t := mod(floor(x / factor), b(k));
+            a(k + 1) := t;
+            factor := factor * b(k);
+        END LOOP;
+
+        -- a0
+        a(1) := floor(x / factor);
+
+        RETURN a;
+    END;
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
