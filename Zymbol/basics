@@ -315,6 +315,34 @@ function radix(a, b, d) {
     result
 }
 
+#
+# 1.42 (Reverse of 1.41)
+#
+function radix2(x, b, d) {
+    variable a = {}
+    variable factor = 1
+    variable t
+    for k = 1 to length(d) {
+        factor = factor * d[k]
+        if k == length(d) {
+            t = mod(x * factor, d[k])
+        } else {
+            t = mod(floor(x * factor), d[k])
+        }
+        a = a & {t}
+    }
+
+    factor = 1
+    for k = length(b) to 1 by -1 {
+        t = mod(floor(x / factor), b[k])
+        a = {t} & a
+        factor = factor * b[k]
+    }
+
+    # a0
+    {floor(x / factor)} & a
+}
+
 function test_pi(x) {
     x >= 3.1415926538
 }
