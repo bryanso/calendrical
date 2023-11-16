@@ -269,6 +269,33 @@ num radix(List<num> a, List<num> b, List<num> d) {
   return result;
 }
 
+//
+// 1.42 (Reverse of 1.41)
+//
+List<num> radix2(num x, List<num> b, List<num> d) {
+  List<num> a = [];
+  num factor = 1;
+
+  for (int k = 0; k < d.length; k++) {
+    factor *= d[k];
+    num t = (k == d.length - 1)
+        ? mod(x * factor, d[k])
+        : mod((x * factor).floor(), d[k]);
+    a.add(t);
+  }
+
+  factor = 1;
+  for (int k = b.length - 1; k >= 0; k--) {
+    num t = mod((x / factor).floor(), b[k]);
+    a.insert(0, t);
+    factor *= b[k];
+  }
+
+  // a0
+  a.insert(0, (x / factor).floor());
+  return a;
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
@@ -288,4 +315,6 @@ main() {
   print(min_binary_search(test_accuracy, 0, 10, test_pi));
   print(radix([4, 1, 12, 44, 2.88], [7], [24, 60, 60]));
   print(radix([0, 4, 48, 0], [], [24, 60, 60]));
+  print(radix2(0.2, [], [24, 60, 60]));
+  print(radix2(29.53058888888889, [7], [24, 60, 60]));
 }
