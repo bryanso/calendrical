@@ -1,5 +1,5 @@
 //
-// Adapted from Calendrical Calculations by
+// Adapted from Calendrical Calculations: The Ultimate Edition
 // Edward M. Reingold and Nachum Dershowitz
 //
 

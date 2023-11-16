@@ -1,6 +1,6 @@
 CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
 --
--- Adapted from Calendrical Calculations by 
+-- Adapted from Calendrical Calculations: The Ultimate Edition
 -- Edward M. Reingold and Nachum Dershowitz
 --
 -- bso Fri Nov 10 12:36:02 PST 2023
