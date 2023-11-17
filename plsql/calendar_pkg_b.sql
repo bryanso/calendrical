@@ -429,6 +429,25 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN result;
     END;
 
+    --
+    -- 1.45
+    -- 
+    FUNCTION angle_from_degrees(a NUMBER) 
+    RETURN dbms_sql.number_table IS
+        dms dbms_sql.number_table;
+    BEGIN 
+        dms := radix2(
+            abs(a), 
+            dbms_sql.number_table(), 
+            dbms_sql.number_table(60, 60));
+        IF a < 0 THEN
+            dms(1) := -dms(1);
+            dms(2) := -dms(2);
+            dms(3) := -dms(3);
+        END IF;
+        RETURN dms;
+    END;
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch

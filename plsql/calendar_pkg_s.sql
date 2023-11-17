@@ -67,6 +67,9 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION clock_from_moment(t NUMBER)                    -- 1.44 
     RETURN dbms_sql.number_table;
+
+    FUNCTION angle_from_degrees(a NUMBER)                   -- 1.45
+    RETURN dbms_sql.number_table;
 END;
 /
 SHOW ERRORS
