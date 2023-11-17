@@ -343,6 +343,43 @@ function radix2(x, b, d) {
     {floor(x / factor)} & a
 }
 
+#
+# 1.43
+#
+# Definition in the book is incorrect.  The following should be the
+# corrected version.  But it's more readable to use the 3rd ed. formula.
+#
+# function time_from_clock(hms) {
+#    radix({0} & hms, {}, {24, 60, 60}) 
+# }
+#
+# Formula from 3rd edition
+#
+function time_from_clock(hms) {
+    variable h = hms[1]
+    variable m = hms[2]
+    variable s = hms[3]
+    (h + (m + s / 60) / 60) / 24
+}
+
+#
+# 1.44
+#
+# Formula from 3rd edition
+#
+# function clock_from_moment(t) {
+#     variable h, m, s
+#     variable time = time_from_moment(t)
+#     h = floor(time * 24)
+#     m = floor(mod(time * 24 * 60, 60))
+#     s = mod(time * 24 * 60 * 60, 60)
+#     {h m s}
+# }
+#
+function clock_from_moment(t) {
+    rest(radix2(t, {}, {24 60 60}))
+}
+
 function test_pi(x) {
     x >= 3.1415926538
 }
