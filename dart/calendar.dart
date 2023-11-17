@@ -296,6 +296,44 @@ List<num> radix2(num x, List<num> b, List<num> d) {
   return a;
 }
 
+//
+// 1.43
+//
+// Definition in the book is incorrect.  The following should be the
+// corrected version.  But it's more readable to use the 3rd ed. formula.
+//
+// function time_from_clock(hms) {
+//    radix({0} & hms, {}, {24, 60, 60})
+// }
+//
+// Formula from 3rd edition
+//
+num time_from_clock(List<num> hms) {
+  num h = hms[0];
+  num m = hms[1];
+  num s = hms[2];
+  return (h + (m + s / 60) / 60) / 24;
+}
+
+//
+// 1.44
+//
+// Formula from 3rd edition
+//
+// function clock_from_moment(t) {
+//     variable h, m, s
+//     variable time = time_from_moment(t)
+//     h = floor(time * 24)
+//     m = floor(mod(time * 24 * 60, 60))
+//     s = mod(time * 24 * 60 * 60, 60)
+//     {h m s}
+// }
+//
+List<num> clock_from_moment(num t) {
+  var l = radix2(t, [], [24, 60, 60]);
+  return l.skip(1).toList();
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
