@@ -380,6 +380,18 @@ function clock_from_moment(t) {
     rest(radix2(t, {}, {24 60 60}))
 }
 
+#
+# 1.45
+# 
+function angle_from_degrees(a) {
+    variable dms = radix2(abs(a), {}, {60 60})
+    if a >= 0 {
+        dms
+    } else {
+        {-dms[1], -dms[2], -dms[3]}
+    }
+}
+
 function test_pi(x) {
     x >= 3.1415926538
 }
