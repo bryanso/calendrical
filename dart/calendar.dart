@@ -334,6 +334,19 @@ List<num> clock_from_moment(num t) {
   return l.skip(1).toList();
 }
 
+//
+// 1.45
+//
+List<num> angle_from_degrees(num a) {
+  List<num> dms = radix2(a.abs(), [], [60, 60]);
+  if (a < 0) {
+    dms[0] = -dms[0];
+    dms[1] = -dms[1];
+    dms[2] = -dms[2];
+  }
+  return dms;
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
