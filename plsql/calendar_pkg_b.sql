@@ -382,6 +382,53 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN a;
     END;
 
+    --
+    -- 1.43
+    --
+    -- Definition in the book is incorrect.  The following should be the
+    -- corrected version.  But it's more readable to use the 3rd ed. formula.
+    --
+    -- function time_from_clock(hms) {
+    --    radix({0} & hms, {}, {24, 60, 60}) 
+    -- }
+    --
+    -- Formula from 3rd edition
+    --
+    FUNCTION time_from_clock(hms dbms_sql.number_table)
+    RETURN NUMBER IS
+        h NUMBER := hms(1);
+        m NUMBER := hms(2);
+        s NUMBER := hms(3);
+    BEGIN
+        RETURN (h + (m + s / 60) / 60) / 24;
+    END;
+
+    --
+    -- 1.44
+    --
+    -- Formula from 3rd edition
+    --
+    -- function clock_from_moment(t) {
+    --     variable h, m, s
+    --     variable time = time_from_moment(t)
+    --     h = floor(time * 24)
+    --     m = floor(mod(time * 24 * 60, 60))
+    --     s = mod(time * 24 * 60 * 60, 60)
+    --     {h m s}
+    -- }
+    --
+    FUNCTION clock_from_moment(t NUMBER) 
+    RETURN dbms_sql.number_table IS
+        time NUMBER;
+        result dbms_sql.number_table;
+    BEGIN
+        time := time_from_moment(t);
+        result(1) := floor(time * 24);
+        result(2) := floor(mod(time * 24 * 60, 60));
+        result(3) := mod(time * 24 * 60 * 60, 60);
+        RETURN result;
+    END;
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch

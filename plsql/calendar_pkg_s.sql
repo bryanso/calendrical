@@ -61,6 +61,12 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
         b dbms_sql.number_table, 
         d dbms_sql.number_table) 
     RETURN dbms_sql.number_table;
+
+    FUNCTION time_from_clock(hms dbms_sql.number_table)     -- 1.43
+    RETURN NUMBER;
+
+    FUNCTION clock_from_moment(t NUMBER)                    -- 1.44 
+    RETURN dbms_sql.number_table;
 END;
 /
 SHOW ERRORS
