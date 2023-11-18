@@ -12,6 +12,7 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     MJD_EPOCH   NUMBER;                 -- 1.6 Modified Julian Epoch
     UNIX_EPOCH  NUMBER;                 -- 1.9 Unix Epoch
     EGYPTIAN_EPOCH  NUMBER;             -- 1.46
+    ARMENIAN_EPOCH NUMBER;              -- 1.50
 
     FUNCTION mod(x NUMBER, y NUMBER) RETURN NUMBER;  -- 1.17 Modified mod function
 
@@ -76,6 +77,12 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     RETURN NUMBER;
 
     FUNCTION egyptian_from_fixed(date NUMBER)              -- 1.49
+    RETURN dbms_sql.number_table;
+
+    FUNCTION fixed_from_armenian(year NUMBER, month NUMBER, day NUMBER)  -- 1.51
+    RETURN NUMBER;
+
+    FUNCTION armenian_from_fixed(date NUMBER)              -- 1.52
     RETURN dbms_sql.number_table;
 END;
 /

@@ -495,13 +495,50 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN dbms_sql.number_table(year, month, day);
     END;
 
+    --
+    -- The Armenian Months
+    --
+    --  1. Nawasardi              30 days
+    --  2. Hori                   30 days
+    --  3. Sahmi                  30 days
+    --  4. Tre                    30 days
+    --  5. K'aloch                30 days
+    --  6. Arach                  30 days
+    --  7. Mehekani               30 days
+    --  8. Areg                   30 days
+    --  9. Ahekani                30 days
+    -- 10. Mareri                 30 days
+    -- 11. Margach                30 days
+    -- 12. Hrotich                30 days
+    -- 13. aweleach                5 days
+    --
 
+    --
+    -- 1.51
+    --
+    FUNCTION fixed_from_armenian(year NUMBER, month NUMBER, day NUMBER) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN ARMENIAN_EPOCH + 
+            fixed_from_egyptian(year, month, day) -
+            EGYPTIAN_EPOCH;
+    END;
+
+    --
+    -- 1.52
+    --
+    FUNCTION armenian_from_fixed(date NUMBER) 
+    RETURN dbms_sql.number_table IS
+    BEGIN
+        RETURN egyptian_from_fixed(date + EGYPTIAN_EPOCH - ARMENIAN_EPOCH);
+    END;
 
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
     UNIX_EPOCH := rd(719163);    -- 1.9 Unix Epoch
     EGYPTIAN_EPOCH := fixed_from_jd(1448638);    -- 1.46
+    ARMENIAN_EPOCH := rd(201443);                -- 1.50
 
 END;
 /
