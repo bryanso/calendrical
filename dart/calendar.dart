@@ -369,20 +369,55 @@ List<num> angle_from_degrees(num a) {
 //
 // 1.47
 //
-int fixed_from_egyptian(int year, int month, int day) =>
+num fixed_from_egyptian(int year, int month, int day) =>
     Egyptian_Epoch + 365 * (year - 1) + 30 * (month - 1) + day - 1;
 
 //
 // 1.49
 //
-List<int> egyptian_from_fixed(int date) {
-  int days, year, month, day;
+List<num> egyptian_from_fixed(num date) {
+  num days, year, month, day;
   days = date - Egyptian_Epoch;
   year = (days / 365).floor() + 1;
   month = (mod(days, 365) / 30).floor() + 1;
   day = days - 365 * (year - 1) - 30 * (month - 1) + 1;
   return [year, month, day];
 }
+
+//
+// 1.50
+//
+final Armenian_Epoch = rd(201443);
+
+//
+// The Armenian Months
+//
+//  1. Nawasardi              30 days
+//  2. Hori                   30 days
+//  3. Sahmi                  30 days
+//  4. Tre                    30 days
+//  5. K'aloch                30 days
+//  6. Arach                  30 days
+//  7. Mehekani               30 days
+//  8. Areg                   30 days
+//  9. Ahekani                30 days
+// 10. Mareri                 30 days
+// 11. Margach                30 days
+// 12. Hrotich                30 days
+// 13. aweleach                5 days
+//
+
+//
+// 1.51
+//
+num fixed_from_armenian(int year, int month, int day) =>
+    Armenian_Epoch + fixed_from_egyptian(year, month, day) - Egyptian_Epoch;
+
+//
+// 1.52
+//
+List<num> armenian_from_fixed(num date) =>
+    egyptian_from_fixed(date + Egyptian_Epoch - Armenian_Epoch);
 
 num test_identical(num x) => x;
 
