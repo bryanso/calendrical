@@ -419,3 +419,23 @@ function egyptian_from_fixed(date) {
     {year month day}
 }
 
+#
+# 1.50
+#
+Calendar->Armenian_Epoch = rd(201443)
+
+#
+# 1.51
+#
+function fixed_from_armenian(year, month, day) {
+    Calendar->Armenian_Epoch + 
+        fixed_from_egyptian(year, month, day) -
+        Calendar->Egyptian_Epoch
+}
+
+#
+# 1.52
+#
+function armenian_from_fixed(date) {
+    egyptian_from_fixed(date + Calendar->Egyptian_Epoch - Calendar->Armenian_Epoch)
+}
