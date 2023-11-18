@@ -72,10 +72,10 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     FUNCTION angle_from_degrees(a NUMBER)                   -- 1.45
     RETURN dbms_sql.number_table;
 
-    FUNCTION fixed_from_egyptian(year INTEGER, month INTEGER, day INTEGER)  -- 1.47
-    RETURN INTEGER;
+    FUNCTION fixed_from_egyptian(year NUMBER, month NUMBER, day NUMBER)  -- 1.47
+    RETURN NUMBER;
 
-    FUNCTION egyptian_from_fixed(date INTEGER)              -- 1.49
+    FUNCTION egyptian_from_fixed(date NUMBER)              -- 1.49
     RETURN dbms_sql.number_table;
 END;
 /

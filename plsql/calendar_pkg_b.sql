@@ -469,8 +469,8 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     --
     -- 1.47
     --
-    FUNCTION fixed_from_egyptian(year INTEGER, month INTEGER, day INTEGER) 
-    RETURN INTEGER IS
+    FUNCTION fixed_from_egyptian(year NUMBER, month NUMBER, day NUMBER) 
+    RETURN NUMBER IS
     BEGIN
         RETURN EGYPTIAN_EPOCH + 
             365 * (year - 1) +
@@ -481,12 +481,12 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     --
     -- 1.49
     --
-    FUNCTION egyptian_from_fixed(date INTEGER) 
+    FUNCTION egyptian_from_fixed(date NUMBER) 
     RETURN dbms_sql.number_table IS
-        days INTEGER;
-        year INTEGER;
-        month INTEGER;
-        day INTEGER;
+        days NUMBER;
+        year NUMBER;
+        month NUMBER;
+        day NUMBER;
     BEGIN
         days := date - EGYPTIAN_EPOCH;
         year := floor(days / 365) + 1;
