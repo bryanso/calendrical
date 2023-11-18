@@ -460,6 +460,25 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
             day - 1;
     END;
 
+    --
+    -- 1.49
+    --
+    FUNCTION egyptian_from_fixed(date INTEGER) 
+    RETURN dbms_sql.number_table IS
+        days INTEGER;
+        year INTEGER;
+        month INTEGER;
+        day INTEGER;
+    BEGIN
+        days := date - EGYPTIAN_EPOCH;
+        year := floor(days / 365) + 1;
+        month := floor(mod(days, 365) / 30) + 1;
+        day := days - 365 * (year - 1) - 30 * (month - 1) + 1;
+        RETURN dbms_sql.number_table(year, month, day);
+    END;
+
+
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
