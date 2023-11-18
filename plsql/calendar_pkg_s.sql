@@ -11,6 +11,7 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     JD_EPOCH    NUMBER;                 -- 1.3 Julian date epoch
     MJD_EPOCH   NUMBER;                 -- 1.6 Modified Julian Epoch
     UNIX_EPOCH  NUMBER;                 -- 1.9 Unix Epoch
+    EGYPTIAN_EPOCH  NUMBER;             -- 1.46
 
     FUNCTION mod(x NUMBER, y NUMBER) RETURN NUMBER;  -- 1.17 Modified mod function
 

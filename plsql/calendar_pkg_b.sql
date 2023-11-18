@@ -452,6 +452,7 @@ BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
     UNIX_EPOCH := rd(719163);    -- 1.9 Unix Epoch
+    EGYPTIAN_EPOCH := fixed_from_jd(1448638);    -- 1.46
 
 END;
 /

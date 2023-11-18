@@ -392,12 +392,8 @@ function angle_from_degrees(a) {
     }
 }
 
-function test_pi(x) {
-    x >= 3.1415926538
-}
+#
+# 1.46
+#
+Calendar->Egyptian_Epoch = fixed_from_jd(1448638)
 
-function test_accuracy(l, u) {
-    (u - l) < 0.001
-}
-
-# print min_binary_search(test_accuracy, 0, 10, test_pi)

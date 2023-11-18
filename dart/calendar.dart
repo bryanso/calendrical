@@ -21,6 +21,7 @@ num rd(num t) {
 final JD_Epoch = rd(-1721424.5); // 1.3 Julian date epoch
 final MJD_Epoch = rd(678576); // 1.6 Modified Julian Epoch
 final UNIX_Epoch = rd(719163); // 1.9 Unix Epoch
+final Egyptian_Epoch = fixed_from_jd(1448638); // 1.46
 
 //
 // 1.4
