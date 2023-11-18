@@ -449,6 +449,24 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     END;
 
     --
+    -- The Egyptian Months
+    --
+    --  1. Thoth                  30 days
+    --  2. Phaophi                30 days
+    --  3. Athyr                  30 days
+    --  4. Choiak                 30 days
+    --  5. Tybi                   30 days
+    --  6. Mechir                 30 days
+    --  7. Phamenoth              30 days
+    --  8. Pharmuthi              30 days
+    --  9. Pachon                 30 days
+    -- 10. Payni                  30 days
+    -- 11. Epiphi                 30 days
+    -- 12. Mesori                 30 days
+    -- 13. (unnamed epagomenae)    5 days
+    --
+
+    --
     -- 1.47
     --
     FUNCTION fixed_from_egyptian(year INTEGER, month INTEGER, day INTEGER) 
