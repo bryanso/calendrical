@@ -397,3 +397,13 @@ function angle_from_degrees(a) {
 #
 Calendar->Egyptian_Epoch = fixed_from_jd(1448638)
 
+#
+# 1.47
+#
+function fixed_from_egyptian(year, month, day) {
+    Calendar->Egyptian_Epoch + 
+        365 * (year - 1) +
+        30 * (month - 1) + 
+        day - 1
+}
+
