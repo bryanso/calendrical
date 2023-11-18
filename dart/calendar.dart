@@ -354,6 +354,18 @@ List<num> angle_from_degrees(num a) {
 int fixed_from_egyptian(int year, int month, int day) =>
     Egyptian_Epoch + 365 * (year - 1) + 30 * (month - 1) + day - 1;
 
+//
+// 1.49
+//
+List<int> egyptian_from_fixed(int date) {
+  int days, year, month, day;
+  days = date - Egyptian_Epoch;
+  year = (days / 365).floor() + 1;
+  month = (mod(days, 365) / 30).floor() + 1;
+  day = days - 365 * (year - 1) - 30 * (month - 1) + 1;
+  return [year, month, day];
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
