@@ -17,6 +17,14 @@ function mod(x, y) {
     }
 }
 
+Calendar->Sunday = 0                # 1.53
+Calendar->Monday = 1                # 1.54
+Calendar->Tuesday = 2               # 1.55
+Calendar->Wednesday = 3             # 1.56
+Calendar->Thursday = 4              # 1.57
+Calendar->Friday = 5                # 1.58
+Calendar->Saturday = 6              # 1.59
+
 Calendar->Epoch = 0                 # 1.1
 
 #

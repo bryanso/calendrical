@@ -10,10 +10,19 @@
 //
 num mod(num x, num y) => x - y * (x / y).floor();
 
+final Sunday = 0; // 1.53
+final Monday = 1; // 1.54
+final Tuesday = 2; // 1.55
+final Wednesday = 3; // 1.56
+final Thursday = 4; // 1.57
+final Friday = 5; // 1.58
+final Saturday = 6; // 1.59
+
 //
 // 1.1 Initial Epoch and Rata Die (fixed date)
 //
 final Epoch = 0;
+
 num rd(num t) {
   return t - Epoch;
 }

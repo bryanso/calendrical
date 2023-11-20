@@ -7,6 +7,14 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 --
 
 
+    SUNDAY      CONSTANT NUMBER := 0;   -- 1.53
+    MONDAY      CONSTANT NUMBER := 1;   -- 1.54
+    TUESDAY     CONSTANT NUMBER := 2;   -- 1.55
+    WEDNESDAY   CONSTANT NUMBER := 3;   -- 1.56
+    THURSDAY    CONSTANT NUMBER := 4;   -- 1.57
+    FRIDAY      CONSTANT NUMBER := 5;   -- 1.58
+    SATURDAY    CONSTANT NUMBER := 6;   -- 1.59
+
     EPOCH       CONSTANT NUMBER := 0;   -- 1.1
     JD_EPOCH    NUMBER;                 -- 1.3 Julian date epoch
     MJD_EPOCH   NUMBER;                 -- 1.6 Modified Julian Epoch
