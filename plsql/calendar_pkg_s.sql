@@ -92,6 +92,9 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION armenian_from_fixed(date NUMBER)              -- 1.52
     RETURN dbms_sql.number_table;
+
+    FUNCTION day_of_week_from_fixed(date NUMBER)           -- 1.60
+    RETURN NUMBER;
 END;
 /
 SHOW ERRORS

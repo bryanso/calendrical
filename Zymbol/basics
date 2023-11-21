@@ -483,3 +483,10 @@ function fixed_from_armenian(year, month, day) {
 function armenian_from_fixed(date) {
     egyptian_from_fixed(date + Calendar->Egyptian_Epoch - Calendar->Armenian_Epoch)
 }
+
+#
+# 1.60
+#
+function day_of_week_from_fixed(date) {
+    mod(date - rd(0) - Calendar->Sunday, 7)
+}

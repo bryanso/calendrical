@@ -428,6 +428,11 @@ num fixed_from_armenian(int year, int month, int day) =>
 List<num> armenian_from_fixed(num date) =>
     egyptian_from_fixed(date + Egyptian_Epoch - Armenian_Epoch);
 
+//
+// 1.60
+//
+num day_of_week_from_fixed(num date) => mod(date - rd(0) - Sunday, 7);
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;

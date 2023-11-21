@@ -533,6 +533,15 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN egyptian_from_fixed(date + EGYPTIAN_EPOCH - ARMENIAN_EPOCH);
     END;
 
+    --
+    -- 1.60
+    --
+    FUNCTION day_of_week_from_fixed(date NUMBER) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN mod(date - rd(0) - SUNDAY, 7);
+    END;
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
