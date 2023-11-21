@@ -15,6 +15,19 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     FRIDAY      CONSTANT NUMBER := 5;   -- 1.58
     SATURDAY    CONSTANT NUMBER := 6;   -- 1.59
 
+    JANUARY     CONSTANT NUMBER := 1;   -- 2.4
+    FEBRUARY    CONSTANT NUMBER := 2;   -- 2.5
+    MARCH       CONSTANT NUMBER := 3;   -- 2.6
+    APRIL       CONSTANT NUMBER := 4;   -- 2.7
+    MAY         CONSTANT NUMBER := 5;   -- 2.8
+    JUNE        CONSTANT NUMBER := 6;   -- 2.9
+    JULY        CONSTANT NUMBER := 7;   -- 2.10
+    AUGUST      CONSTANT NUMBER := 8;   -- 2.11
+    SEPTEMBER   CONSTANT NUMBER := 9;   -- 2.12
+    OCTOBER     CONSTANT NUMBER := 10;  -- 2.13
+    NOVEMBER    CONSTANT NUMBER := 11;  -- 2.14
+    DECEMBER    CONSTANT NUMBER := 12;  -- 2.15
+
     EPOCH       CONSTANT NUMBER := 0;   -- 1.1
     JD_EPOCH    NUMBER;                 -- 1.3 Julian date epoch
     MJD_EPOCH   NUMBER;                 -- 1.6 Modified Julian Epoch

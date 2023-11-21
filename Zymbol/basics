@@ -25,6 +25,19 @@ Calendar->Thursday = 4              # 1.57
 Calendar->Friday = 5                # 1.58
 Calendar->Saturday = 6              # 1.59
 
+Calendar->January = 1               # 2.4
+Calendar->February = 2              # 2.5
+Calendar->March = 3                 # 2.6
+Calendar->April = 4                 # 2.7
+Calendar->May = 5                   # 2.8
+Calendar->June = 6                  # 2.9
+Calendar->July = 7                  # 2.10
+Calendar->August = 8                # 2.11
+Calendar->September = 9             # 2.12
+Calendar->October = 10              # 2.13
+Calendar->November = 11             # 2.14
+Calendar->December = 12             # 2.15
+
 Calendar->Epoch = 0                 # 1.1
 
 #

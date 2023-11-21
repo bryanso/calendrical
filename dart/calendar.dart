@@ -18,6 +18,19 @@ final Thursday = 4; // 1.57
 final Friday = 5; // 1.58
 final Saturday = 6; // 1.59
 
+final January = 1; // 2.4
+final February = 2; // 2.5
+final March = 3; // 2.6
+final April = 4; // 2.7
+final May = 5; // 2.8
+final June = 6; // 2.9
+final July = 7; // 2.10
+final August = 8; // 2.11
+final September = 9; // 2.12
+final October = 10; // 2.13
+final November = 11; // 2.14
+final December = 12; // 2.15
+
 //
 // 1.1 Initial Epoch and Rata Die (fixed date)
 //
