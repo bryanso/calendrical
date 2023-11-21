@@ -108,6 +108,27 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION day_of_week_from_fixed(date NUMBER)           -- 1.60
     RETURN NUMBER;
+
+    -- 1.62
+    FUNCTION kday_on_or_before(k NUMBER, date NUMBER) 
+    RETURN NUMBER;
+
+    -- 1.65
+    FUNCTION kday_on_or_after(k NUMBER, date NUMBER) 
+    RETURN NUMBER;
+
+    -- 1.66
+    FUNCTION kday_nearest(k NUMBER, date NUMBER) 
+    RETURN NUMBER;
+
+    -- 1.67
+    FUNCTION kday_before(k NUMBER, date NUMBER) 
+    RETURN NUMBER;
+
+    -- 1.68
+    FUNCTION kday_after(k NUMBER, date NUMBER) 
+    RETURN NUMBER;
+
 END;
 /
 SHOW ERRORS

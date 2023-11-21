@@ -533,13 +533,46 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
         RETURN egyptian_from_fixed(date + EGYPTIAN_EPOCH - ARMENIAN_EPOCH);
     END;
 
-    --
     -- 1.60
-    --
     FUNCTION day_of_week_from_fixed(date NUMBER) 
     RETURN NUMBER IS
     BEGIN
         RETURN mod(date - rd(0) - SUNDAY, 7);
+    END;
+
+    -- 1.62
+    FUNCTION kday_on_or_before(k NUMBER, date NUMBER) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN date - day_of_week_from_fixed(date - k);
+    END;
+
+    -- 1.65
+    FUNCTION kday_on_or_after(k NUMBER, date NUMBER) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN kday_on_or_before(k, date + 6);
+    END;
+
+    -- 1.66
+    FUNCTION kday_nearest(k NUMBER, date NUMBER) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN kday_on_or_before(k, date + 3);
+    END;
+
+    -- 1.67
+    FUNCTION kday_before(k NUMBER, date NUMBER) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN kday_on_or_before(k, date - 1);
+    END;
+
+    -- 1.68
+    FUNCTION kday_after(k NUMBER, date NUMBER) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN kday_on_or_before(k, date + 7);
     END;
 
 BEGIN

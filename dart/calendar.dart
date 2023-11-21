@@ -441,10 +441,24 @@ num fixed_from_armenian(int year, int month, int day) =>
 List<num> armenian_from_fixed(num date) =>
     egyptian_from_fixed(date + Egyptian_Epoch - Armenian_Epoch);
 
-//
 // 1.60
-//
 num day_of_week_from_fixed(num date) => mod(date - rd(0) - Sunday, 7);
+
+// 1.62
+num kday_on_or_before(num k, num date) =>
+    date - day_of_week_from_fixed(date - k);
+
+// 1.65
+num kday_on_or_after(num k, num date) => kday_on_or_before(k, date + 6);
+
+// 1.66
+num kday_nearest(num k, num date) => kday_on_or_before(k, date + 3);
+
+// 1.67
+num kday_before(num k, num date) => kday_on_or_before(k, date - 1);
+
+// 1.68
+num kday_after(num k, num date) => kday_on_or_before(k, date + 7);
 
 num test_identical(num x) => x;
 
