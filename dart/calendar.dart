@@ -460,6 +460,63 @@ num kday_before(num k, num date) => kday_on_or_before(k, date - 1);
 // 1.68
 num kday_after(num k, num date) => kday_on_or_before(k, date + 7);
 
+//
+// Section 1.13 Simultaneous Cycles
+//
+// Some calendars employ two cycles running simultaneously.
+// Each day is labeled by a pair of number <a, b>, beginning
+// with <0, 0>, followed by <1, 1>, <2, 2>, and so on.
+// Supposed the first component repeats after c days and the
+// second after d days, with c < d < 2c, then after day
+// <c-1, c-1> comes days <0, c>, <1, c+1>, and so on until
+// <d-c-1, d-1>, which is followed by <d-c, 0>.  If day 0 of
+// the calendar is labeled <0, 0> then day n is <mod(n, c),
+// mod(n, d)>.  The Chinese use such pairs to identify years
+// (see Section 19.4), which cycles of length c = 10 and
+// d = 12 but, because the first component ranges from 1 to
+// 10, inclusive, and the second from 1 to 12, we would use
+// the adjusted remainder function: <mod3(n, 10), mod3(n, 12)
+//
+// More generally, for arbitrary positive integers c and d,
+// if the label of day 0 is <e, f> then day n is labeled
+//
+// <mod(n+ , c), mod(n+f, d)>
+//
+// Inverting this representation is harder.
+//
+// Let
+//     l = lcm(c, d)
+//     g = gcd(c, d)
+//     u = c / g
+//     v = d / g
+//
+// Find k so that
+//     mod(k * u, v) = 1
+//
+// n = mod(a - e + c * k * (b - a + e - f) / g, l)
+//
+
+//
+// The prefixes of the Akan calendar are
+//
+// 1 Nwona (care, wellness, surpass, innocence)
+// 2 Nkyi (passing, no restrictions)
+// 3 Kuru (sacred, complete)
+// 4 Kwa (ordinary, empty, freedom)
+// 5 Mono (fresh, new)
+// 6 Fo (generous, calm, love to another)
+//
+// The stems are
+//
+// 1 Wukuo (cleansing, advocate, mean-spirited)
+// 2 Yaw (pain, suffering, bravery)
+// 3 Fie (depart from, come forth, travel)
+// 4 Memene (digest, satiety, creation, ancient)
+// 5 Kwasi (freedom, purify, smoke)
+// 6 Dwo (peaceful, cool, calm)
+// 7 Bene (well-cooked)
+//
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
