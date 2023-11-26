@@ -671,6 +671,14 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
             date - 42);
     END;
 
+    -- 2.16
+    FUNCTION gregorian_leap_year(year INTEGER) 
+    RETURN BOOLEAN IS
+    BEGIN
+        RETURN mod(year, 4) = 0 AND 
+            mod(year, 400) NOT IN (100, 200, 300);
+    END;
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
@@ -678,6 +686,7 @@ BEGIN
     EGYPTIAN_EPOCH := fixed_from_jd(1448638);    -- 1.46
     ARMENIAN_EPOCH := rd(201443);                -- 1.50
     AKAN_DAY_NAME_EPOCH := rd(37);               -- 1.78
+    GREGORIAN_EPOCH := rd(1);                    -- 2.3
 
 END;
 /

@@ -35,6 +35,7 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     EGYPTIAN_EPOCH  NUMBER;             -- 1.46
     ARMENIAN_EPOCH NUMBER;              -- 1.50
     AKAN_DAY_NAME_EPOCH NUMBER;         -- 1.78
+    GREGORIAN_EPOCH NUMBER;             -- 2.3
 
     FUNCTION mod(x NUMBER, y NUMBER) RETURN NUMBER;  -- 1.17 Modified mod function
 
@@ -147,6 +148,10 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     FUNCTION akan_day_name_on_or_before(
         prefix NUMBER, stem NUMBER, date NUMBER) 
     RETURN NUMBER;
+
+    -- 2.16
+    FUNCTION gregorian_leap_year(year INTEGER) 
+    RETURN BOOLEAN;
 
 END;
 /
