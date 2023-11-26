@@ -517,6 +517,29 @@ num kday_after(num k, num date) => kday_on_or_before(k, date + 7);
 // 7 Bene (well-cooked)
 //
 
+// 1.78
+final Akan_Day_Name_Epoch = rd(37);
+
+// 1.76
+List<num> akan_day_name(num n) => [mod3(n, 6), mod3(n, 7)];
+
+// 1.77
+num akan_name_difference(num prefix1, num stem1, num prefix2, num stem2) {
+  num p = prefix2 - prefix1;
+  num s = stem2 - stem1;
+  return mod3(p + 36 * (s - p), 42);
+}
+
+// 1.79
+List<num> akan_name_from_fixed(num date) =>
+    akan_day_name(date - Akan_Day_Name_Epoch);
+
+// 1.80
+num akan_day_name_on_or_before(num prefix, num stem, num date) {
+  List<num> z = akan_name_from_fixed(0);
+  return mod2(akan_name_difference(z[0], z[1], prefix, stem), date, date - 42);
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
