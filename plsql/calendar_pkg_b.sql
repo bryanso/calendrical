@@ -632,12 +632,52 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     -- 7 Bene (well-cooked)
     -- 
 
+    -- 1.76
+    FUNCTION akan_day_name(n NUMBER) 
+    RETURN dbms_sql.number_table IS
+        l dbms_sql.number_table;
+    BEGIN
+        l(1) := mod3(n, 6);
+        l(2) := mod3(n, 7);
+        RETURN l;
+    END;
+
+    -- 1.77
+    FUNCTION akan_name_difference(
+        prefix1 NUMBER, stem1 NUMBER, prefix2 NUMBER, stem2 NUMBER) 
+    RETURN NUMBER IS
+        p NUMBER := prefix2 - prefix1;
+        s NUMBER := stem2 - stem1;
+    BEGIN
+        RETURN mod3(p + 36 * (s - p), 42);
+    END;
+
+    -- 1.79
+    FUNCTION akan_name_from_fixed(date) 
+    RETURN NUMBER IS
+    BEGIN
+        RETURN akan_day_name(date - AKAN_DAY_NAME_EPOCH);
+    END;
+
+    -- 1.80
+    FUNCTION akan_day_name_on_or_before(
+        prefix NUMBER, stem NUMBER, date NUMBER) 
+    RETURN NUMBER IS
+        z dbms_sql.number_table := akan_name_from_fixed(0);
+    BEGIN
+        RETURN mod2(
+            akan_name_difference(z(1), z(2), prefix, stem),
+            date,
+            date - 42);
+    END;
+
 BEGIN
     JD_EPOCH := rd(-1721424.5);  -- 1.3 Julian date Epoch
     MJD_EPOCH := rd(678576);     -- 1.6 Modified Julian Epoch
     UNIX_EPOCH := rd(719163);    -- 1.9 Unix Epoch
     EGYPTIAN_EPOCH := fixed_from_jd(1448638);    -- 1.46
     ARMENIAN_EPOCH := rd(201443);                -- 1.50
+    AKAN_DAY_NAME_EPOCH := rd(37);               -- 1.78
 
 END;
 /

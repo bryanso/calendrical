@@ -34,6 +34,7 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     UNIX_EPOCH  NUMBER;                 -- 1.9 Unix Epoch
     EGYPTIAN_EPOCH  NUMBER;             -- 1.46
     ARMENIAN_EPOCH NUMBER;              -- 1.50
+    AKAN_DAY_NAME_EPOCH NUMBER;         -- 1.78
 
     FUNCTION mod(x NUMBER, y NUMBER) RETURN NUMBER;  -- 1.17 Modified mod function
 
@@ -127,6 +128,24 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     -- 1.68
     FUNCTION kday_after(k NUMBER, date NUMBER) 
+    RETURN NUMBER;
+
+    -- 1.76
+    FUNCTION akan_day_name(n NUMBER) 
+    RETURN dbms_sql.number_table;
+
+    -- 1.77
+    FUNCTION akan_name_difference(
+        prefix1 NUMBER, stem1 NUMBER, prefix2 NUMBER, stem2 NUMBER) 
+    RETURN NUMBER;
+
+    -- 1.79
+    FUNCTION akan_name_from_fixed(date) 
+    RETURN NUMBER;
+
+    -- 1.80
+    FUNCTION akan_day_name_on_or_before(
+        prefix NUMBER, stem NUMBER, date NUMBER) 
     RETURN NUMBER;
 
 END;
