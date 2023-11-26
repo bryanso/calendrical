@@ -653,8 +653,8 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     END;
 
     -- 1.79
-    FUNCTION akan_name_from_fixed(date) 
-    RETURN NUMBER IS
+    FUNCTION akan_name_from_fixed(date NUMBER) 
+    RETURN dbms_sql.number_table IS
     BEGIN
         RETURN akan_day_name(date - AKAN_DAY_NAME_EPOCH);
     END;

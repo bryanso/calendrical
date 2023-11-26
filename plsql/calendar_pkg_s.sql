@@ -140,8 +140,8 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     RETURN NUMBER;
 
     -- 1.79
-    FUNCTION akan_name_from_fixed(date) 
-    RETURN NUMBER;
+    FUNCTION akan_name_from_fixed(date NUMBER) 
+    RETURN dbms_sql.number_table;
 
     -- 1.80
     FUNCTION akan_day_name_on_or_before(
