@@ -540,6 +540,14 @@ num akan_day_name_on_or_before(num prefix, num stem, num date) {
   return mod2(akan_name_difference(z[0], z[1], prefix, stem), date, date - 42);
 }
 
+// 2.3
+final Gregorian_Epoch = rd(1);
+
+// 2.16
+bool gregorian_leap_year(int year) {
+  return mod(year, 4) == 0 && ![100, 200, 300].contains(mod(year, 400));
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;
