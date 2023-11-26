@@ -613,3 +613,12 @@ function akan_day_name_on_or_before(prefix, stem, date) {
         date,
         date - 42)
 }
+
+# 2.3
+Calendar->Gregorian_Epoch = rd(1)
+
+# 2.16
+function gregorian_leap_year(year) {
+    mod(year, 4) == 0 and 
+        not mod(year, 400) in {100 200 300}
+}
