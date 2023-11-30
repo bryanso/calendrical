@@ -622,3 +622,25 @@ function gregorian_leap_year(year) {
     mod(year, 4) == 0 and 
         not mod(year, 400) in {100 200 300}
 }
+
+# 2.17
+function fixed_from_gregorian(year, month, day) {
+    variable correction
+
+    if month <= 2 {
+        correction = 0
+    } else if gregorian_leap_year(year) {
+        correction = -1
+    } else {
+        correction = -2
+    }
+
+    Calendar->Gregorian_Epoch - 1 + 
+        365 * (year - 1) +
+        floor((year - 1) / 4) -
+        floor((year - 1) / 100) +
+        floor((year - 1) / 400) +
+        floor(1/12 * (367 * month - 362)) +
+        day +
+        correction
+}
