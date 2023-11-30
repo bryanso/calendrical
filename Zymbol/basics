@@ -644,3 +644,18 @@ function fixed_from_gregorian(year, month, day) {
         day +
         correction
 }
+
+# 2.18
+function gregorian_new_year(year) {
+    fixed_from_gregorian(year, Calendar->January, 1)
+}
+
+# 2.19
+function gregorian_year_end(year) {
+    fixed_from_gregorian(year, Calendar->December, 31)
+}
+
+# 2.20
+function gregorian_year_range(year) {
+    {gregorian_new_year(year) gregorian_new_year(year + 1)}
+}
