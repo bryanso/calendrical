@@ -656,6 +656,10 @@ function gregorian_year_end(year) {
 }
 
 # 2.20
+# The book has an open-ended definition [begin..end)
+# The 3rd edition has closed-ended definition.
+# Changed back to 3rd edition definition for user-friendliness
+# Now the range is inclusive on both dates.
 function gregorian_year_range(year) {
-    {gregorian_new_year(year) gregorian_new_year(year + 1)}
+    {gregorian_new_year(year) gregorian_year_end(year)}
 }
