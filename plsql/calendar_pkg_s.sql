@@ -96,19 +96,19 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     FUNCTION angle_from_degrees(a NUMBER)                   -- 1.45
     RETURN dbms_sql.number_table;
 
-    FUNCTION fixed_from_egyptian(year NUMBER, month NUMBER, day NUMBER)  -- 1.47
+    FUNCTION fixed_from_egyptian(ymd dbms_sql.number_table) -- 1.47
     RETURN NUMBER;
 
-    FUNCTION egyptian_from_fixed(date NUMBER)              -- 1.49
+    FUNCTION egyptian_from_fixed(date NUMBER)               -- 1.49
     RETURN dbms_sql.number_table;
 
-    FUNCTION fixed_from_armenian(year NUMBER, month NUMBER, day NUMBER)  -- 1.51
+    FUNCTION fixed_from_armenian(ymd dbms_sql.number_table) -- 1.51
     RETURN NUMBER;
 
-    FUNCTION armenian_from_fixed(date NUMBER)              -- 1.52
+    FUNCTION armenian_from_fixed(date NUMBER)               -- 1.52
     RETURN dbms_sql.number_table;
 
-    FUNCTION day_of_week_from_fixed(date NUMBER)           -- 1.60
+    FUNCTION day_of_week_from_fixed(date NUMBER)            -- 1.60
     RETURN NUMBER;
 
     -- 1.62
@@ -137,7 +137,8 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     -- 1.77
     FUNCTION akan_name_difference(
-        prefix1 NUMBER, stem1 NUMBER, prefix2 NUMBER, stem2 NUMBER) 
+        name1 dbms_sql.number_table,
+        name2 dbms_sql.number_table)
     RETURN NUMBER;
 
     -- 1.79
@@ -146,7 +147,7 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     -- 1.80
     FUNCTION akan_day_name_on_or_before(
-        prefix NUMBER, stem NUMBER, date NUMBER) 
+        name dbms_sql.number_table, date NUMBER) 
     RETURN NUMBER;
 
     -- 2.16

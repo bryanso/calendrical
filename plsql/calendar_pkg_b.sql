@@ -469,13 +469,13 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     --
     -- 1.47
     --
-    FUNCTION fixed_from_egyptian(year NUMBER, month NUMBER, day NUMBER) 
+    FUNCTION fixed_from_egyptian(ymd dbms_sql.number_table) 
     RETURN NUMBER IS
     BEGIN
         RETURN EGYPTIAN_EPOCH + 
-            365 * (year - 1) +
-            30 * (month - 1) + 
-            day - 1;
+            365 * (ymd(1) - 1) +
+            30 * (ymd(2) - 1) + 
+            ymd(3) - 1;
     END;
 
     --
@@ -516,11 +516,11 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     --
     -- 1.51
     --
-    FUNCTION fixed_from_armenian(year NUMBER, month NUMBER, day NUMBER) 
+    FUNCTION fixed_from_armenian(ymd dbms_sql.number_table) 
     RETURN NUMBER IS
     BEGIN
         RETURN ARMENIAN_EPOCH + 
-            fixed_from_egyptian(year, month, day) -
+            fixed_from_egyptian(ymd) -
             EGYPTIAN_EPOCH;
     END;
 
@@ -644,10 +644,11 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
 
     -- 1.77
     FUNCTION akan_name_difference(
-        prefix1 NUMBER, stem1 NUMBER, prefix2 NUMBER, stem2 NUMBER) 
+        name1 dbms_sql.number_table,
+        name2 dbms_sql.number_table)
     RETURN NUMBER IS
-        p NUMBER := prefix2 - prefix1;
-        s NUMBER := stem2 - stem1;
+        p NUMBER := name2(1) - name1(1);
+        s NUMBER := name2(2) - name1(2);
     BEGIN
         RETURN mod3(p + 36 * (s - p), 42);
     END;
@@ -661,12 +662,12 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
 
     -- 1.80
     FUNCTION akan_day_name_on_or_before(
-        prefix NUMBER, stem NUMBER, date NUMBER) 
+        name dbms_sql.number_table, date NUMBER) 
     RETURN NUMBER IS
         z dbms_sql.number_table := akan_name_from_fixed(0);
     BEGIN
         RETURN mod2(
-            akan_name_difference(z(1), z(2), prefix, stem),
+            akan_name_difference(z, name),
             date,
             date - 42);
     END;
