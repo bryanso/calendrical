@@ -391,8 +391,8 @@ List<num> angle_from_degrees(num a) {
 //
 // 1.47
 //
-num fixed_from_egyptian(int year, int month, int day) =>
-    Egyptian_Epoch + 365 * (year - 1) + 30 * (month - 1) + day - 1;
+num fixed_from_egyptian(List<int> ymd) =>
+    Egyptian_Epoch + 365 * (ymd[0] - 1) + 30 * (ymd[1] - 1) + ymd[2] - 1;
 
 //
 // 1.49
@@ -432,8 +432,8 @@ final Armenian_Epoch = rd(201443);
 //
 // 1.51
 //
-num fixed_from_armenian(int year, int month, int day) =>
-    Armenian_Epoch + fixed_from_egyptian(year, month, day) - Egyptian_Epoch;
+num fixed_from_armenian(List<int> ymd) =>
+    Armenian_Epoch + fixed_from_egyptian(ymd) - Egyptian_Epoch;
 
 //
 // 1.52
@@ -524,9 +524,9 @@ final Akan_Day_Name_Epoch = rd(37);
 List<num> akan_day_name(num n) => [mod3(n, 6), mod3(n, 7)];
 
 // 1.77
-num akan_name_difference(num prefix1, num stem1, num prefix2, num stem2) {
-  num p = prefix2 - prefix1;
-  num s = stem2 - stem1;
+num akan_name_difference(List<num> name1, List<num> name2) {
+  num p = name2[0] - name1[0];
+  num s = name2[1] - name1[1];
   return mod3(p + 36 * (s - p), 42);
 }
 
@@ -535,9 +535,9 @@ List<num> akan_name_from_fixed(num date) =>
     akan_day_name(date - Akan_Day_Name_Epoch);
 
 // 1.80
-num akan_day_name_on_or_before(num prefix, num stem, num date) {
+num akan_day_name_on_or_before(List<num> name, num date) {
   List<num> z = akan_name_from_fixed(0);
-  return mod2(akan_name_difference(z[0], z[1], prefix, stem), date, date - 42);
+  return mod2(akan_name_difference(z, name), date, date - 42);
 }
 
 // 2.3
