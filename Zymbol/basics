@@ -440,11 +440,11 @@ Calendar->Egyptian_Epoch = fixed_from_jd(1448638)
 #
 # 1.47
 #
-function fixed_from_egyptian(year, month, day) {
+function fixed_from_egyptian(ymd) {
     Calendar->Egyptian_Epoch + 
-        365 * (year - 1) +
-        30 * (month - 1) + 
-        day - 1
+        365 * (ymd[1] - 1) +
+        30 * (ymd[2] - 1) + 
+        ymd[3] - 1
 }
 
 #
@@ -485,9 +485,9 @@ Calendar->Armenian_Epoch = rd(201443)
 #
 # 1.51
 #
-function fixed_from_armenian(year, month, day) {
+function fixed_from_armenian(ymd) {
     Calendar->Armenian_Epoch + 
-        fixed_from_egyptian(year, month, day) -
+        fixed_from_egyptian(ymd) -
         Calendar->Egyptian_Epoch
 }
 
@@ -594,9 +594,9 @@ function akan_day_name(n) {
 }
 
 # 1.77
-function akan_name_difference(prefix1, stem1, prefix2, stem2) {
-    variable p = prefix2 - prefix1
-    variable s = stem2 - stem1
+function akan_name_difference(name1, name2) {
+    variable p = name2[1] - name1[1]
+    variable s = name2[2] - name2[2]
     mod3(p + 36 * (s - p), 42)
 }
 
@@ -606,10 +606,10 @@ function akan_name_from_fixed(date) {
 }
 
 # 1.80
-function akan_day_name_on_or_before(prefix, stem, date) {
+function akan_day_name_on_or_before(name, date) {
     variable z = akan_name_from_fixed(0)
     mod2(
-        akan_name_difference(z[1], z[2], prefix, stem),
+        akan_name_difference(z, name),
         date,
         date - 42)
 }
@@ -624,8 +624,11 @@ function gregorian_leap_year(year) {
 }
 
 # 2.17
-function fixed_from_gregorian(year, month, day) {
-    variable correction
+function fixed_from_gregorian(ymd) {
+    variable year, month, day, correction
+    year = ymd[1]
+    month = ymd[2]
+    day = ymd[3]
 
     if month <= 2 {
         correction = 0
@@ -647,12 +650,12 @@ function fixed_from_gregorian(year, month, day) {
 
 # 2.18
 function gregorian_new_year(year) {
-    fixed_from_gregorian(year, Calendar->January, 1)
+    fixed_from_gregorian({year Calendar->January 1})
 }
 
 # 2.19
 function gregorian_year_end(year) {
-    fixed_from_gregorian(year, Calendar->December, 31)
+    fixed_from_gregorian({year Calendar->December 31})
 }
 
 # 2.20
@@ -716,20 +719,19 @@ function gregorian_from_fixed(date) {
     variable prior_days = date - gregorian_new_year(year)
 
     variable correction = 2
-    if date < fixed_from_gregorian(year, Calendar->March, 1) {
+    if date < fixed_from_gregorian({year Calendar->March 1}) {
         correction = 0
     } else if gregorian_leap_year(year) {
         correction = 1
     }
 
     variable month = floor((12 * (prior_days + correction) + 373) / 367)
-    variable day = 1 + date - fixed_from_gregorian(year, month, 1)
+    variable day = 1 + date - fixed_from_gregorian({year month 1})
 
     {year month day}
 }
 
 # 2.24
-function gregorian_date_difference(year1, month1, day1, year2, month2, day2) {
-    fixed_from_gregorian(year2, month2, day2) - 
-        fixed_from_gregorian(year1, month2, day1)
+function gregorian_date_difference(ymd1, ymd2) {
+    fixed_from_gregorian(ymd2) - fixed_from_gregorian(ymd1)
 }
