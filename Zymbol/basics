@@ -640,7 +640,7 @@ function fixed_from_gregorian(year, month, day) {
         floor((year - 1) / 4) -
         floor((year - 1) / 100) +
         floor((year - 1) / 400) +
-        floor(1/12 * (367 * month - 362)) +
+        floor((367 * month - 362) / 12) +
         day +
         correction
 }
@@ -686,4 +686,50 @@ function gregorian_year_from_fixed(date) {
     } else { 
         year + 1
     }
+}
+
+# 2.22
+function gregorian_ordinal_days(date) {
+    variable d0 = date - Calendar->Gregorian_Epoch
+
+    variable n400 = floor(d0 / 146097)    # day 146097 is last day of 400-year cycle
+    variable d1 = mod(d0, 146097)
+
+    variable n100 = floor(d1 / 36524)     # last day of 100-year cycle
+    variable d2 = mod(d1, 36524)
+
+    variable n4 = floor(d2 / 1461)        # last day of 4-year cycle
+    variable d3 = mod(d2, 1461)
+
+    variable n1 = floor(d3 / 365)
+    
+    if n1 <> 4 and n100 <> 4 {
+        mod(d3, 365) + 1
+    } else {
+        366
+    }
+}
+
+# 2.23
+function gregorian_from_fixed(date) {
+    variable year = gregorian_year_from_fixed(date)
+    variable prior_days = date - gregorian_new_year(year)
+
+    variable correction = 2
+    if date < fixed_from_gregorian(year, Calendar->March, 1) {
+        correction = 0
+    } else if gregorian_leap_year(year) {
+        correction = 1
+    }
+
+    variable month = floor((12 * (prior_days + correction) + 373) / 367)
+    variable day = 1 + date - fixed_from_gregorian(year, month, 1)
+
+    {year month day}
+}
+
+# 2.24
+function gregorian_date_difference(year1, month1, day1, year2, month2, day2) {
+    fixed_from_gregorian(year2, month2, day2) - 
+        fixed_from_gregorian(year1, month2, day1)
 }
