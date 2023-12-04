@@ -548,6 +548,103 @@ bool gregorian_leap_year(int year) {
   return mod(year, 4) == 0 && ![100, 200, 300].contains(mod(year, 400));
 }
 
+// 2.17
+num fixed_from_gregorian(List<int> ymd) {
+  int year = ymd[0];
+  int month = ymd[1];
+  int day = ymd[2];
+
+  int correction;
+  if (month <= 2) {
+    correction = 0;
+  } else if (gregorian_leap_year(year)) {
+    correction = -1;
+  } else {
+    correction = -2;
+  }
+
+  return Gregorian_Epoch -
+      1 +
+      365 * (year - 1) +
+      ((year - 1) / 4).floor() -
+      ((year - 1) / 100).floor() +
+      ((year - 1) / 400).floor() +
+      ((367 * month - 362) / 12).floor() +
+      day +
+      correction;
+}
+
+// 2.18
+num gregorian_new_year(int year) => fixed_from_gregorian([year, January, 1]);
+
+// 2.19
+num gregorian_year_end(int year) => fixed_from_gregorian([year, December, 31]);
+
+// 2.20
+// The book has an open-ended definition [begin..end)
+// The 3rd edition has closed-ended definition.
+// Changed back to 3rd edition definition for user-friendliness
+// Now the range is inclusive on both dates.
+List<num> gregorian_year_range(int year) =>
+    [gregorian_new_year(year), gregorian_year_end(year)];
+
+// 2.21
+int gregorian_year_from_fixed(num date) {
+  int d0 = (date - Gregorian_Epoch).floor();
+
+  int n400 = (d0 / 146097).floor(); // day 146097 is last day of 400-year cycle
+  int d1 = mod(d0, 146097).floor();
+
+  int n100 = (d1 / 36524).floor(); // last day of 100-year cycle
+  int d2 = mod(d1, 36524).floor();
+
+  int n4 = (d2 / 1461).floor(); // last day of 4-year cycle
+  int d3 = mod(d2, 1461).floor();
+
+  int n1 = (d3 / 365).floor();
+
+  int year = 400 * n400 + 100 * n100 + 4 * n4 + n1;
+
+  return (n100 == 4 || n1 == 4) ? year : year + 1;
+}
+
+// 2.22
+int gregorian_ordinal_days(num date) {
+  int d0 = (date - Gregorian_Epoch).floor();
+  int d1 = mod(d0, 146097).floor();
+
+  int n100 = (d1 / 36524).floor(); // last day of 100-year cycle
+  int d2 = mod(d1, 36524).floor();
+  int d3 = mod(d2, 1461).floor();
+
+  int n1 = (d3 / 365).floor();
+
+  return (n1 != 4 && n100 != 4) ? mod(d3, 365).floor() + 1 : 366;
+}
+
+// 2.23
+List<int> gregorian_from_fixed(num date) {
+  int year = gregorian_year_from_fixed(date);
+  num prior_days = date - gregorian_new_year(year);
+
+  int correction = 2;
+  if (date < fixed_from_gregorian([year, March, 1])) {
+    correction = 0;
+  } else if (gregorian_leap_year(year)) {
+    correction = 1;
+  }
+
+  int month = ((12 * (prior_days + correction) + 373) / 367).floor();
+  int day = (1 + date - fixed_from_gregorian([year, month, 1])).floor();
+
+  return [year, month, day];
+}
+
+// 2.24
+num gregorian_date_difference(List<int> ymd1, List<int> ymd2) {
+  return fixed_from_gregorian(ymd2) - fixed_from_gregorian(ymd1);
+}
+
 num test_identical(num x) => x;
 
 bool test_lessthaneleven(int x) => x < 11;

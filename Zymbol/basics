@@ -694,14 +694,10 @@ function gregorian_year_from_fixed(date) {
 # 2.22
 function gregorian_ordinal_days(date) {
     variable d0 = date - Calendar->Gregorian_Epoch
-
-    variable n400 = floor(d0 / 146097)    # day 146097 is last day of 400-year cycle
     variable d1 = mod(d0, 146097)
 
     variable n100 = floor(d1 / 36524)     # last day of 100-year cycle
     variable d2 = mod(d1, 36524)
-
-    variable n4 = floor(d2 / 1461)        # last day of 4-year cycle
     variable d3 = mod(d2, 1461)
 
     variable n1 = floor(d3 / 365)
