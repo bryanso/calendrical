@@ -731,3 +731,27 @@ function gregorian_from_fixed(date) {
 function gregorian_date_difference(ymd1, ymd2) {
     fixed_from_gregorian(ymd2) - fixed_from_gregorian(ymd1)
 }
+
+# 2.25
+function gregorian_day_number(ymd1) {
+    variable ymd2 = {ymd1[1] - 1, Calendar->December, 31}
+    gregorian_date_difference(ymd2, ymd1)
+}
+
+# 2.26
+function gregorian_days_remaining(ymd1) {
+    variable ymd2 = {ymd1[1], Calendar->December, 31}
+    gregorian_date_difference(ymd1, ymd2)
+}
+
+# 2.27
+function last_day_of_gregorian_month(year, month) {
+    variable ymd1, ymd2
+    ymd1 = {year month 1}
+    if month == 12 {
+        year = year + 1
+    }
+    month = mod3(month + 1, 12)
+    ymd2 = {year month 1}
+    gregorian_date_difference(ymd1, ymd2)
+}
