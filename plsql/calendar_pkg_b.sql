@@ -59,7 +59,7 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     --
     -- 1.10
     --
-    FUNCTION moment_from_unix(seconds INTEGER) RETURN NUMBER IS
+    FUNCTION moment_from_unix(seconds NUMBER) RETURN NUMBER IS
     BEGIN
         RETURN UNIX_EPOCH + seconds / 24.0 / 60.0 / 60.0;
     END;
@@ -75,7 +75,7 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     --
     -- 1.12
     --
-    FUNCTION fixed_from_moment(t NUMBER) RETURN INTEGER IS
+    FUNCTION fixed_from_moment(t NUMBER) RETURN NUMBER IS
     BEGIN
         RETURN floor(t);
     END;
@@ -83,7 +83,7 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     --
     -- 1.13
     --
-    FUNCTION fixed_from_jd(jd NUMBER) RETURN INTEGER IS
+    FUNCTION fixed_from_jd(jd NUMBER) RETURN NUMBER IS
     BEGIN
         RETURN floor(moment_from_jd(jd));
     END;
@@ -678,6 +678,135 @@ CREATE OR REPLACE PACKAGE BODY calendar_pkg IS
     BEGIN
         RETURN mod(year, 4) = 0 AND 
             mod(year, 400) NOT IN (100, 200, 300);
+    END;
+
+    -- 2.17
+    FUNCTION fixed_from_gregorian(ymd dbms_sql.number_table)
+    RETURN NUMBER IS
+        year NUMBER := ymd(1);
+        month NUMBER := ymd(2);
+        day NUMBER := ymd(3);
+        correction NUMBER;
+    BEGIN
+        IF month <= 2 THEN
+            correction := 0;
+        ELSIF gregorian_leap_year(year) THEN
+            correction := -1;
+        ELSE
+            correction := -2;
+        END IF;
+
+        RETURN GREGORIAN_EPOCH -
+            1 +
+            365 * (year - 1) +
+            floor((year - 1) / 4) -
+            floor((year - 1) / 100) +
+            floor((year - 1) / 400) +
+            floor((367 * month - 362) / 12) +
+            day +
+            correction;
+    END;
+
+    -- 2.18
+    FUNCTION gregorian_new_year(year NUMBER) 
+    RETURN NUMBER IS
+        ymd dbms_sql.number_table := dbms_sql.number_table(year, JANUARY, 1);
+    BEGIN
+        RETURN fixed_from_gregorian(ymd);
+    END;
+
+    -- 2.19
+    FUNCTION gregorian_year_end(year NUMBER)
+    RETURN NUMBER IS
+        ymd dbms_sql.number_table := dbms_sql.number_table(year, DECEMBER, 31);
+    BEGIN
+        RETURN fixed_from_gregorian(ymd);
+    END;
+
+    -- 2.20
+    -- The book has an open-ended definition [begin..end)
+    -- The 3rd edition has closed-ended definition.
+    -- Changed back to 3rd edition definition for user-friendliness
+    -- Now the range is inclusive on both dates.
+    FUNCTION gregorian_year_range(year NUMBER)
+    RETURN dbms_sql.number_table IS
+        l dbms_sql.number_table;
+    BEGIN
+        l(1) := gregorian_new_year(year);
+        l(2) := gregorian_year_end(year);
+        RETURN l;
+    END;
+
+    -- 2.21
+    FUNCTION gregorian_year_from_fixed(date NUMBER)
+    RETURN NUMBER IS
+        d0 NUMBER := floor(date - GREGORIAN_EPOCH);
+        n400 NUMBER := floor(d0 / 146097); -- day 146097 is last day of 400-year cycle
+        d1 NUMBER := mod(d0, 146097);
+        n100 NUMBER := floor(d1 / 36524); -- last day of 100-year cycle
+        d2 NUMBER := mod(d1, 36524);
+        n4 NUMBER := floor(d2 / 1461); -- last day of 4-year cycle
+        d3 NUMBER := mod(d2, 1461);
+        n1 NUMBER := floor(d3 / 365);
+        year NUMBER := 400 * n400 + 100 * n100 + 4 * n4 + n1;
+    BEGIN
+        IF n100 = 4 OR n1 = 4 THEN  
+            RETURN year;
+        ELSE 
+            RETURN year + 1;
+        END IF;
+    END;
+
+    -- 2.22
+    FUNCTION gregorian_ordinal_days(date NUMBER)
+    RETURN NUMBER IS
+        d0 NUMBER := floor(date - GREGORIAN_EPOCH);
+        d1 NUMBER := mod(d0, 146097);
+        n100 NUMBER := floor(d1 / 36524); -- last day of 100-year cycle
+        d2 NUMBER := mod(d1, 36524);
+        d3 NUMBER := mod(d2, 1461);
+        n1 NUMBER := floor(d3 / 365);
+    BEGIN
+        IF n1 <> 4 AND n100 <> 4 THEN
+            RETURN mod(d3, 365) + 1;
+        ELSE    
+            RETURN 366;
+        END IF;
+    END;
+
+    -- 2.23
+    FUNCTION gregorian_from_fixed(date NUMBER) 
+    RETURN dbms_sql.number_table IS
+        year NUMBER;
+        prior_days NUMBER;
+        correction NUMBER := 2;
+        month NUMBER;
+        day NUMBER;
+    BEGIN
+        year := gregorian_year_from_fixed(date);
+        prior_days := date - gregorian_new_year(year);
+        -- march(1) := year;
+        -- march(2) := MARCH;
+        -- march(3) := 1;
+        IF date < fixed_from_gregorian(dbms_sql.number_table(year, MARCH, 1)) THEN
+            correction := 0;
+        ELSIF gregorian_leap_year(year) THEN
+            correction := 1;
+        END IF;
+
+        month := floor((12 * (prior_days + correction) + 373) / 367);
+        day := floor(1 + date - fixed_from_gregorian(
+            dbms_sql.number_table(year, month, 1)));
+
+        RETURN dbms_sql.number_table(year, month, day);
+    END;
+
+    -- 2.24
+    FUNCTION gregorian_date_difference(
+        ymd1 dbms_sql.number_table, ymd2 dbms_sql.number_table)
+    RETURN NUMBER IS
+    BEGIN 
+        RETURN fixed_from_gregorian(ymd2) - fixed_from_gregorian(ymd1);
     END;
 
 BEGIN

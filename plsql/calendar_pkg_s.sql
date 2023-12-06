@@ -49,13 +49,13 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
 
     FUNCTION mjd_from_fixed(date NUMBER) RETURN NUMBER;    -- 1.8
 
-    FUNCTION moment_from_unix(seconds INTEGER) RETURN NUMBER;  -- 1.10
+    FUNCTION moment_from_unix(seconds NUMBER) RETURN NUMBER;  -- 1.10
 
     FUNCTION unix_from_moment(t NUMBER) RETURN NUMBER;     -- 1.11
 
-    FUNCTION fixed_from_moment(t NUMBER) RETURN INTEGER;   -- 1.12
+    FUNCTION fixed_from_moment(t NUMBER) RETURN NUMBER;   -- 1.12
 
-    FUNCTION fixed_from_jd(jd NUMBER) RETURN INTEGER;      -- 1.13
+    FUNCTION fixed_from_jd(jd NUMBER) RETURN NUMBER;      -- 1.13
 
     FUNCTION jd_from_fixed(date NUMBER) RETURN NUMBER;     -- 1.14
 
@@ -154,6 +154,38 @@ CREATE OR REPLACE PACKAGE calendar_pkg IS
     FUNCTION gregorian_leap_year(year INTEGER) 
     RETURN BOOLEAN;
 
+    -- 2.17
+    FUNCTION fixed_from_gregorian(ymd dbms_sql.number_table)
+    RETURN NUMBER;
+
+    -- 2.18
+    FUNCTION gregorian_new_year(year NUMBER) 
+    RETURN NUMBER;
+
+    -- 2.19
+    FUNCTION gregorian_year_end(year NUMBER)
+    RETURN NUMBER;
+
+    -- 2.20
+    FUNCTION gregorian_year_range(year NUMBER)
+    RETURN dbms_sql.number_table;
+
+    -- 2.21
+    FUNCTION gregorian_year_from_fixed(date NUMBER)
+    RETURN NUMBER;
+
+    -- 2.22
+    FUNCTION gregorian_ordinal_days(date NUMBER)
+    RETURN NUMBER;
+
+    -- 2.23
+    FUNCTION gregorian_from_fixed(date NUMBER) 
+    RETURN dbms_sql.number_table;
+
+    -- 2.24
+    FUNCTION gregorian_date_difference(
+        ymd1 dbms_sql.number_table, ymd2 dbms_sql.number_table)
+    RETURN NUMBER;
 END;
 /
 SHOW ERRORS
